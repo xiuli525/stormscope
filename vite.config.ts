@@ -36,6 +36,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/nominatim/, ""),
       },
+      "/api/ai": {
+        target: "https://ark.cn-beijing.volces.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/ai/, "/api/v3"),
+      },
     },
   },
 });

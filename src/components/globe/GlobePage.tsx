@@ -1,10 +1,12 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Earth } from "./Earth";
+import { Clouds } from "./Clouds";
+import { Atmosphere } from "./Atmosphere";
 import { CityMarkers } from "./CityMarkers";
 import { Starfield } from "./Starfield";
 import { GlobeInfoPanel } from "./GlobeInfoPanel";
@@ -21,6 +23,15 @@ interface HoverState {
   weatherCode: number | null;
 }
 
+function GlobeLoader() {
+  return (
+    <mesh>
+      <sphereGeometry args={[2, 32, 32]} />
+      <meshBasicMaterial color="#1a2a4a" wireframe />
+    </mesh>
+  );
+}
+
 function SceneContent({
   onHover,
   onCityClick,
@@ -33,7 +44,13 @@ function SceneContent({
       <ambientLight intensity={0.1} />
       <directionalLight position={[5, 3, 5]} intensity={0.3} />
       <Starfield count={2000} />
-      <Earth />
+      <Suspense fallback={<GlobeLoader />}>
+        <Earth />
+      </Suspense>
+      <Suspense fallback={null}>
+        <Clouds />
+      </Suspense>
+      <Atmosphere />
       <CityMarkers onHover={onHover} onClick={onCityClick} />
       <OrbitControls
         autoRotate

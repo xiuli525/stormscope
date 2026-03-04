@@ -27,9 +27,9 @@ export function SearchInput({
       )}
     >
       {loading ? (
-        <Loader2 className="w-4 h-4 mr-2 text-[var(--text-muted)] animate-spin shrink-0" />
+        <Loader2 className="w-4 h-4 mr-2 text-[var(--search-input-placeholder)] animate-spin shrink-0" />
       ) : (
-        <Search className="w-4 h-4 mr-2 text-[var(--text-muted)] shrink-0" />
+        <Search className="w-4 h-4 mr-2 text-[var(--search-input-placeholder)] shrink-0" />
       )}
 
       <input
@@ -38,7 +38,7 @@ export function SearchInput({
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
-        className="flex-1 bg-transparent border-none outline-none placeholder-[var(--text-muted)] text-[var(--text-primary)] min-w-0"
+        className="flex-1 bg-transparent border-none outline-none placeholder-[var(--search-input-placeholder)] text-[var(--text-primary)] min-w-0"
       />
 
       {value && (
@@ -48,7 +48,7 @@ export function SearchInput({
           className="ml-2 focus:outline-none"
           aria-label="Clear search"
         >
-          <X className="w-4 h-4 text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors shrink-0" />
+          <X className="w-4 h-4 text-[var(--search-input-placeholder)] hover:text-[var(--text-primary)] transition-colors shrink-0" />
         </button>
       )}
     </div>

@@ -10,8 +10,7 @@ interface ChatCompletionChunk {
   }>;
 }
 
-const DOUBAO_API_URL =
-  "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
+const DOUBAO_API_URL = "/api/ai/chat/completions";
 const DOUBAO_MODEL = "doubao-1.5-pro-32k-250115";
 
 export async function streamChat(

@@ -1,62 +1,64 @@
 import { useRef, useMemo } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { getSunPosition } from "@/utils/globe-math";
+
+const TEXTURE_BASE =
+  "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets";
 
 const vertexShader = `
   varying vec2 vUv;
   varying vec3 vNormal;
-  varying vec3 vWorldPosition;
+  varying vec3 vPosition;
+
   void main() {
     vUv = uv;
     vNormal = normalize(normalMatrix * normal);
-    vec4 wp = modelMatrix * vec4(position, 1.0);
-    vWorldPosition = wp.xyz;
-    gl_Position = projectionMatrix * viewMatrix * wp;
+    vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `;
 
 const fragmentShader = `
+  uniform sampler2D uDayMap;
+  uniform sampler2D uNightMap;
+  uniform sampler2D uNormalMap;
+  uniform sampler2D uSpecMap;
   uniform vec3 uSunDir;
   uniform float uTime;
+
   varying vec2 vUv;
   varying vec3 vNormal;
-  varying vec3 vWorldPosition;
-
-  vec3 palette(float t) {
-    vec3 cold = vec3(0.05, 0.1, 0.3);
-    vec3 ocean = vec3(0.05, 0.15, 0.4);
-    vec3 land = vec3(0.08, 0.35, 0.15);
-    vec3 desert = vec3(0.55, 0.45, 0.25);
-    vec3 ice = vec3(0.85, 0.9, 0.95);
-
-    float lat = (vUv.y - 0.5) * 3.14159;
-    float absLat = abs(lat);
-
-    if (absLat > 1.2) return mix(ice, cold, (absLat - 1.2) / 0.37);
-
-    float n = fract(sin(dot(vUv * 40.0, vec2(12.9898, 78.233))) * 43758.5453);
-    float landMask = step(0.42, n);
-    vec3 base = mix(ocean, mix(land, desert, smoothstep(0.3, 0.8, absLat * -1.0 + 0.6)), landMask);
-    return base;
-  }
+  varying vec3 vPosition;
 
   void main() {
-    vec3 normal = normalize(vNormal);
+    vec3 normalTex = texture2D(uNormalMap, vUv).rgb * 2.0 - 1.0;
+    vec3 normal = normalize(vNormal + normalTex * 0.15);
+
     float NdotL = dot(normal, normalize(uSunDir));
-    float dayFactor = smoothstep(-0.15, 0.25, NdotL);
+    float dayFactor = smoothstep(-0.15, 0.35, NdotL);
 
-    vec3 dayColor = palette(vUv.y) * (0.6 + 0.4 * max(NdotL, 0.0));
-    vec3 nightColor = vec3(0.01, 0.02, 0.06);
+    vec3 dayColor = texture2D(uDayMap, vUv).rgb;
+    float diffuse = max(NdotL, 0.0);
+    dayColor *= 0.35 + 0.65 * diffuse;
 
-    float n2 = fract(sin(dot(vUv * 200.0, vec2(12.9898, 78.233))) * 43758.5453);
-    float cityLight = step(0.92, n2) * (1.0 - dayFactor) * 0.6;
-    nightColor += vec3(1.0, 0.85, 0.5) * cityLight;
+    vec3 viewDir = normalize(-vPosition);
+    vec3 halfDir = normalize(normalize(uSunDir) + viewDir);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 64.0);
+    float specMask = texture2D(uSpecMap, vUv).r;
+    dayColor += vec3(0.8, 0.85, 1.0) * spec * specMask * 0.6;
 
-    vec3 color = mix(nightColor, dayColor, dayFactor);
+    vec3 nightTex = texture2D(uNightMap, vUv).rgb;
+    vec3 nightColor = vec3(0.005, 0.008, 0.02);
+    nightColor += nightTex * vec3(1.0, 0.85, 0.5) * 1.5;
 
-    float fresnel = pow(1.0 - max(dot(normal, normalize(cameraPosition - vWorldPosition)), 0.0), 3.0);
-    color += vec3(0.15, 0.3, 0.8) * fresnel * 0.4;
+    float terminatorGlow = exp(-pow((NdotL + 0.05) * 8.0, 2.0));
+    vec3 terminatorColor = vec3(0.9, 0.4, 0.1) * terminatorGlow * 0.3;
+
+    vec3 color = mix(nightColor, dayColor, dayFactor) + terminatorColor;
+
+    float scatter = pow(1.0 - max(dot(normalize(vNormal), viewDir), 0.0), 2.5);
+    color += vec3(0.3, 0.6, 1.0) * scatter * dayFactor * 0.08;
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -66,27 +68,41 @@ export function Earth() {
   const meshRef = useRef<THREE.Mesh>(null);
   const matRef = useRef<THREE.ShaderMaterial>(null);
 
+  const [dayMap, nightMap, normalMap, specMap] = useLoader(
+    THREE.TextureLoader,
+    [
+      `${TEXTURE_BASE}/earth_atmos_2048.jpg`,
+      `${TEXTURE_BASE}/earth_lights_2048.png`,
+      `${TEXTURE_BASE}/earth_normal_2048.jpg`,
+      `${TEXTURE_BASE}/earth_specular_2048.jpg`,
+    ],
+  );
+
   const uniforms = useMemo(
     () => ({
+      uDayMap: { value: dayMap },
+      uNightMap: { value: nightMap },
+      uNormalMap: { value: normalMap },
+      uSpecMap: { value: specMap },
       uSunDir: { value: getSunPosition().normalize() },
       uTime: { value: 0 },
     }),
-    [],
+    [dayMap, nightMap, normalMap, specMap],
   );
 
   useFrame((_, delta) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.03;
+      meshRef.current.rotation.y += delta * 0.02;
     }
     if (matRef.current) {
       matRef.current.uniforms.uTime.value += delta;
-      matRef.current.uniforms.uSunDir.value.copy(getSunPosition().normalize());
+      matRef.current.uniforms.uSunDir.value.copy(getSunPosition()).normalize();
     }
   });
 
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[2, 64, 64]} />
+      <sphereGeometry args={[2, 128, 128]} />
       <shaderMaterial
         ref={matRef}
         vertexShader={vertexShader}

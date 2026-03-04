@@ -135,10 +135,11 @@
   --scrollbar-thumb-hover: rgb(148 163 184 / 0.4);
 
   /* Search input */
-  --search-input-bg: rgb(255 255 255 / 0.1);
-  --search-input-border: rgb(255 255 255 / 0.15);
+  --search-input-bg: rgb(15 23 42 / 0.65);
+  --search-input-border: rgb(148 163 184 / 0.3);
+  --search-input-placeholder: #94a3b8;
   --search-dropdown-bg: rgb(15 22 41 / 0.97);
-  --search-dropdown-border: rgb(255 255 255 / 0.15);
+  --search-dropdown-border: rgb(148 163 184 / 0.2);
   --search-item-hover: rgb(255 255 255 / 0.1);
 }
 
@@ -202,11 +203,12 @@
   --scrollbar-thumb: rgb(148 163 184 / 0.3);
   --scrollbar-thumb-hover: rgb(148 163 184 / 0.5);
 
-  --search-input-bg: rgb(255 255 255 / 0.5);
-  --search-input-border: rgb(255 255 255 / 0.5);
-  --search-dropdown-bg: rgb(255 255 255 / 0.95);
-  --search-dropdown-border: rgb(0 0 0 / 0.1);
-  --search-item-hover: rgb(0 0 0 / 0.05);
+  --search-input-bg: rgb(255 255 255 / 0.75);
+  --search-input-border: rgb(148 163 184 / 0.4);
+  --search-input-placeholder: #64748b;
+  --search-dropdown-bg: rgb(255 255 255 / 0.97);
+  --search-dropdown-border: rgb(0 0 0 / 0.12);
+  --search-item-hover: rgb(0 0 0 / 0.06);
 }
 
 /* === Glass Morphism Utility Classes === */

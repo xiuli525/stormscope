@@ -86,8 +86,8 @@ export default function Settings() {
                 updateSetting("precipitationUnit", val as PrecipitationUnit)
               }
               options={[
-                { value: "mm", label: t("settings.millimeters") },
-                { value: "inch", label: t("settings.inches") },
+                { value: "mm", label: t("settings.mm") },
+                { value: "inch", label: t("settings.inch") },
               ]}
             />
           </div>
