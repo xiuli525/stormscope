@@ -1,4 +1,3 @@
-import React from "react";
 import { cn } from "../../utils/cn";
 
 interface ToggleProps {
@@ -18,7 +17,7 @@ export function Toggle({ checked, onChange, label, className }: ToggleProps) {
         onClick={() => onChange(!checked)}
         className={cn(
           "relative w-11 h-6 rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 p-0.5",
-          checked ? "bg-primary-500" : "bg-neutral-300 dark:bg-neutral-600",
+          checked ? "bg-primary-500" : "bg-[var(--component-bg)]",
         )}
       >
         <span className="sr-only">{label || "Toggle"}</span>
@@ -31,7 +30,7 @@ export function Toggle({ checked, onChange, label, className }: ToggleProps) {
       </button>
       {label && (
         <span
-          className="text-sm font-medium text-neutral-700 dark:text-neutral-200 cursor-pointer select-none"
+          className="text-sm font-medium text-[var(--text-secondary)] cursor-pointer select-none"
           onClick={() => onChange(!checked)}
         >
           {label}

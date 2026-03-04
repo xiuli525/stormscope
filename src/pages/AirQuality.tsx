@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import ReactECharts from "echarts-for-react";
+import { useTranslation } from "react-i18next";
 import { Card, Skeleton, Badge } from "@/components/ui";
 import { AqiGauge } from "@/components/charts";
 import { useFavoritesStore } from "@/stores/favorites";
 import { useSettingsStore } from "@/stores/settings";
+import { useThemeStore } from "@/stores/theme";
 import { useAirQuality } from "@/hooks/useAirQuality";
 import { US_AQI_LEVELS, EU_AQI_LEVELS } from "@/types/air-quality";
 // @ts-ignore - Importing echarts register for side effects/setup if needed, or usage in options
@@ -12,8 +14,8 @@ import { echarts } from "@/themes/register";
 
 const DEFAULT_CITY = {
   id: "beijing",
-  name: "Beijing",
-  country: "China",
+  name: "北京",
+  country: "中国",
   countryCode: "CN",
   latitude: 39.9042,
   longitude: 116.4074,
@@ -40,48 +42,55 @@ const itemVariants = {
 
 interface PollutantInfo {
   key: string;
-  name: string;
+  nameKey: string;
   unit: string;
-  description: string;
+  descriptionKey: string;
 }
 
 const POLLUTANTS: PollutantInfo[] = [
   {
     key: "pm2_5",
-    name: "PM2.5",
+    nameKey: "airQuality.pm25",
     unit: "µg/m³",
-    description: "Fine particles matter",
+    descriptionKey: "airQuality.fineParticles",
   },
   {
     key: "pm10",
-    name: "PM10",
+    nameKey: "airQuality.pm10",
     unit: "µg/m³",
-    description: "Coarse particles matter",
+    descriptionKey: "airQuality.coarseParticles",
   },
-  { key: "ozone", name: "Ozone", unit: "µg/m³", description: "O₃" },
+  {
+    key: "ozone",
+    nameKey: "airQuality.ozone",
+    unit: "µg/m³",
+    descriptionKey: "O₃",
+  },
   {
     key: "nitrogenDioxide",
-    name: "Nitrogen Dioxide",
+    nameKey: "airQuality.nitrogenDioxide",
     unit: "µg/m³",
-    description: "NO₂",
+    descriptionKey: "NO₂",
   },
   {
     key: "sulphurDioxide",
-    name: "Sulphur Dioxide",
+    nameKey: "airQuality.sulphurDioxide",
     unit: "µg/m³",
-    description: "SO₂",
+    descriptionKey: "SO₂",
   },
   {
     key: "carbonMonoxide",
-    name: "Carbon Monoxide",
+    nameKey: "airQuality.carbonMonoxide",
     unit: "µg/m³",
-    description: "CO",
+    descriptionKey: "CO",
   },
 ];
 
 export default function AirQuality() {
+  const { t } = useTranslation();
   const { currentCity } = useFavoritesStore();
   const { aqiStandard } = useSettingsStore();
+  const { resolvedTheme } = useThemeStore();
 
   const city = currentCity ?? DEFAULT_CITY;
 
@@ -103,14 +112,12 @@ export default function AirQuality() {
   const trendOption = useMemo(() => {
     if (!airQuality?.hourly?.time) return {};
 
-    const timeData = airQuality.hourly.time
-      .slice(0, 24)
-      .map((t: string) =>
-        new Date(t).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      );
+    const timeData = airQuality.hourly.time.slice(0, 24).map((t: string) =>
+      new Date(t).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    );
     const aqiKey = aqiStandard === "us" ? "usAqi" : "europeanAqi";
     const aqiData = airQuality.hourly[aqiKey]?.slice(0, 24) ?? [];
 
@@ -192,7 +199,7 @@ export default function AirQuality() {
 
   return (
     <motion.div
-      className="p-4 md:p-6 lg:p-8 space-y-8 w-full max-w-7xl mx-auto text-zinc-100 pb-20"
+      className="p-4 md:p-6 lg:p-8 space-y-8 w-full max-w-7xl mx-auto text-[var(--text-primary)] pb-20"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -206,8 +213,8 @@ export default function AirQuality() {
           className="flex-1 p-8 flex flex-col items-center justify-center min-h-[400px] relative overflow-hidden"
         >
           <div className="absolute top-6 left-6">
-            <h1 className="text-2xl font-bold">Air Quality Index</h1>
-            <p className="text-zinc-400 mt-1">
+            <h1 className="text-2xl font-bold">{t("airQuality.title")}</h1>
+            <p className="text-[var(--text-tertiary)] mt-1">
               {city.name}, {city.countryCode}
             </p>
           </div>
@@ -221,7 +228,7 @@ export default function AirQuality() {
           className="w-full lg:w-1/3 p-6 flex flex-col justify-center"
         >
           <h3 className="text-lg font-semibold mb-6">
-            AQI Scale ({aqiStandard.toUpperCase()})
+            {t("airQuality.aqiScale")} ({aqiStandard.toUpperCase()})
           </h3>
           <div className="space-y-3">
             {aqiLevels.map((level: any) => (
@@ -232,7 +239,7 @@ export default function AirQuality() {
                 />
                 <div className="flex-1 flex justify-between items-center text-sm">
                   <span className="font-medium">{level.label}</span>
-                  <span className="text-zinc-500">
+                  <span className="text-[var(--text-muted)]">
                     {level.min} - {level.max === Infinity ? "+" : level.max}
                   </span>
                 </div>
@@ -243,8 +250,8 @@ export default function AirQuality() {
       </motion.div>
 
       <motion.div variants={itemVariants} className="space-y-4">
-        <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-          Current Pollutants
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+          {t("airQuality.currentPollutants")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {POLLUTANTS.map((pollutant) => {
@@ -253,14 +260,16 @@ export default function AirQuality() {
               <Card key={pollutant.key} variant="glass" className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="font-semibold text-lg">{pollutant.name}</h3>
-                    <p className="text-xs text-zinc-400 mt-0.5">
-                      {pollutant.description}
+                    <h3 className="font-semibold text-lg">
+                      {t(pollutant.nameKey)}
+                    </h3>
+                    <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
+                      {pollutant.descriptionKey}
                     </p>
                   </div>
                   <Badge
                     variant="default"
-                    className="bg-white/10 hover:bg-white/20 text-zinc-300 border-0"
+                    className="bg-[var(--component-bg)] hover:bg-[var(--component-bg-hover)] text-[var(--text-secondary)] border-0"
                   >
                     {pollutant.unit}
                   </Badge>
@@ -275,15 +284,19 @@ export default function AirQuality() {
       </motion.div>
 
       <motion.div variants={itemVariants} className="space-y-4">
-        <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-          24-Hour Forecast
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+          {t("airQuality.hourForecast")}
         </h2>
         <Card variant="glass" className="p-6 h-[400px]">
           {airQuality?.hourly && (
             <ReactECharts
               option={trendOption}
               style={{ height: "100%", width: "100%" }}
-              theme="dark"
+              theme={
+                resolvedTheme === "dark"
+                  ? "stormscope-dark"
+                  : "stormscope-light"
+              }
             />
           )}
         </Card>

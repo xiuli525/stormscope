@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Card, Skeleton } from "@/components/ui";
 import {
   CurrentWeather,
@@ -16,8 +17,8 @@ import { isCurrentHour } from "@/utils/date";
 
 const DEFAULT_CITY = {
   id: "beijing",
-  name: "Beijing",
-  country: "China",
+  name: "北京",
+  country: "中国",
   countryCode: "CN",
   latitude: 39.9042,
   longitude: 116.4074,
@@ -59,6 +60,7 @@ interface ForecastDay {
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { currentCity } = useFavoritesStore();
   const { temperatureUnit, aqiStandard } = useSettingsStore();
 
@@ -85,9 +87,9 @@ export default function Dashboard() {
     if (!weather?.hourly?.time) return [];
     return weather.hourly.time.slice(0, 24).map((time: string, i: number) => ({
       time,
-      temperature: weather.hourly.temperature2m[i],
+      temperature: weather.hourly.temperature[i],
       weatherCode: weather.hourly.weatherCode[i],
-      isDay: !!weather.hourly.isDay[i],
+      isDay: weather.current?.isDay ?? true,
       isActive: isCurrentHour(time),
     }));
   }, [weather]);
@@ -96,12 +98,22 @@ export default function Dashboard() {
     if (!weather?.daily?.time) return [];
     return weather.daily.time.slice(0, 7).map((date: string, i: number) => ({
       date,
-      tempMax: weather.daily.temperature2mMax[i],
-      tempMin: weather.daily.temperature2mMin[i],
+      tempMax: weather.daily.temperatureMax[i],
+      tempMin: weather.daily.temperatureMin[i],
       weatherCode: weather.daily.weatherCode[i],
       precipProb: weather.daily.precipitationProbabilityMax[i],
     }));
   }, [weather]);
+
+  const forecastTempRange = useMemo(() => {
+    if (next7Days.length === 0) return { globalMin: -40, globalMax: 50 };
+    const allMin = next7Days.map((d) => d.tempMin);
+    const allMax = next7Days.map((d) => d.tempMax);
+    return {
+      globalMin: Math.min(...allMin),
+      globalMax: Math.max(...allMax),
+    };
+  }, [next7Days]);
 
   if (isLoading) {
     return (
@@ -133,25 +145,24 @@ export default function Dashboard() {
 
   return (
     <motion.div
-      className="p-4 md:p-6 lg:p-8 space-y-8 w-full max-w-7xl mx-auto text-zinc-100 pb-20"
+      className="p-4 md:p-6 lg:p-8 space-y-8 w-full max-w-7xl mx-auto text-[var(--text-primary)] pb-20"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div variants={itemVariants} className="w-full">
-        {weather && (
+        {weather?.current && (
           <CurrentWeather
-            data={weather.current}
+            weather={weather.current}
             cityName={city.name}
-            countryCode={city.countryCode}
-            unit={temperatureUnit}
+            timezone={weather.timezone}
           />
         )}
       </motion.div>
 
       <motion.div variants={itemVariants} className="space-y-4">
-        <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-          Hourly Forecast
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+          {t("dashboard.hourlyForecast")}
         </h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x -mx-4 px-4 md:mx-0 md:px-0">
           {next24Hours.map((hour) => (
@@ -169,8 +180,8 @@ export default function Dashboard() {
       </motion.div>
 
       <motion.div variants={itemVariants} className="space-y-4">
-        <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-          Temperature Trend
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+          {t("dashboard.temperatureTrend")}
         </h2>
         <Card variant="glass" className="p-6 h-[350px]">
           {weather?.hourly && (
@@ -181,8 +192,8 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <motion.div variants={itemVariants} className="space-y-4">
-          <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-            Precipitation & Wind
+          <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+            {t("dashboard.precipAndWind")}
           </h2>
           <Card variant="glass" className="p-6 h-[350px]">
             {weather?.hourly && <PrecipBar hourly={weather.hourly} />}
@@ -194,13 +205,13 @@ export default function Dashboard() {
             variant="glass"
             className="p-6 h-[350px] flex items-center justify-center relative overflow-hidden"
           >
-            <div className="absolute top-4 left-4 text-sm text-zinc-400 font-medium">
-              Wind Direction
+            <div className="absolute top-4 left-4 text-sm text-[var(--text-tertiary)] font-medium">
+              {t("dashboard.windDirection")}
             </div>
             {weather?.hourly && (
               <WindRose
-                directions={weather.hourly.windDirection10m?.slice(0, 24) ?? []}
-                speeds={weather.hourly.windSpeed10m?.slice(0, 24) ?? []}
+                directions={weather.hourly.windDirection?.slice(0, 24) ?? []}
+                speeds={weather.hourly.windSpeed?.slice(0, 24) ?? []}
               />
             )}
           </Card>
@@ -210,8 +221,8 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 space-y-8">
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-              Air Quality
+            <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+              {t("dashboard.airQuality")}
             </h2>
             <Card
               variant="glass"
@@ -222,24 +233,29 @@ export default function Dashboard() {
                   <AqiGauge aqi={currentAqi} standard={aqiStandard} />
                 </div>
               </div>
-              <div className="w-full sm:w-1/2 pl-0 sm:pl-6 border-l-0 sm:border-l border-white/10 flex flex-col justify-center gap-4">
+              <div className="w-full sm:w-1/2 pl-0 sm:pl-6 border-l-0 sm:border-l border-[var(--glass-border-default)] flex flex-col justify-center gap-4">
                 <div>
-                  <p className="text-sm text-zinc-400 font-medium uppercase tracking-wider">
-                    Primary Pollutant
+                  <p className="text-sm text-[var(--text-tertiary)] font-medium uppercase tracking-wider">
+                    {t("dashboard.primaryPollutant")}
                   </p>
                   <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-white">PM2.5</span>
-                    <span className="text-zinc-400">Particulate Matter</span>
+                    <span className="text-3xl font-bold text-[var(--text-primary)]">
+                      PM2.5
+                    </span>
+                    <span className="text-[var(--text-tertiary)]">
+                      {t("dashboard.particulateMatter")}
+                    </span>
                   </div>
                 </div>
                 <div>
                   <div className="text-4xl font-light text-emerald-400">
                     {airQuality?.hourly?.pm2_5?.[0] ?? 0}{" "}
-                    <span className="text-lg text-zinc-500">µg/m³</span>
+                    <span className="text-lg text-[var(--text-muted)]">
+                      µg/m³
+                    </span>
                   </div>
-                  <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
-                    Fine particles that can penetrate deep into the lungs and
-                    enter the bloodstream.
+                  <p className="text-sm text-[var(--text-tertiary)] mt-2 leading-relaxed">
+                    {t("dashboard.pm25Description")}
                   </p>
                 </div>
               </div>
@@ -247,8 +263,8 @@ export default function Dashboard() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-              7-Day Forecast
+            <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+              {t("dashboard.sevenDayForecast")}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {next7Days.map((day) => (
@@ -259,6 +275,8 @@ export default function Dashboard() {
                   tempMin={day.tempMin}
                   weatherCode={day.weatherCode}
                   precipProb={day.precipProb}
+                  globalMin={forecastTempRange.globalMin}
+                  globalMax={forecastTempRange.globalMax}
                 />
               ))}
             </div>
@@ -269,8 +287,8 @@ export default function Dashboard() {
           variants={itemVariants}
           className="space-y-4 xl:sticky xl:top-6 h-fit"
         >
-          <h2 className="text-xl font-semibold text-zinc-200/90 pl-1">
-            Saved Locations
+          <h2 className="text-xl font-semibold text-[var(--text-primary)] pl-1">
+            {t("dashboard.savedLocations")}
           </h2>
           <Card variant="glass" className="p-4 min-h-[400px]">
             <FavoriteCities />

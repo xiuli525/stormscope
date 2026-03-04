@@ -15,8 +15,6 @@ import {
   VisualMapComponent,
   CalendarComponent,
   PolarComponent,
-  RadiusAxisComponent,
-  AngleAxisComponent,
   DataZoomComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
@@ -37,8 +35,6 @@ echarts.use([
   VisualMapComponent,
   CalendarComponent,
   PolarComponent,
-  RadiusAxisComponent,
-  AngleAxisComponent,
   DataZoomComponent,
   CanvasRenderer,
 ]);

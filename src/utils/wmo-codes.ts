@@ -53,7 +53,14 @@ const WMO_CODES: Record<number, WmoInfo> = {
   },
 };
 
-export function getWmoDescription(code: number): string {
+export function getWmoDescription(
+  code: number,
+  t?: (key: string, options?: Record<string, unknown>) => string,
+): string {
+  if (t) {
+    const translated = t(`wmo.${code}`, { defaultValue: "" });
+    if (translated) return translated;
+  }
   return WMO_CODES[code]?.description ?? "Unknown";
 }
 

@@ -20,9 +20,9 @@ export function Button({
   const variants = {
     primary: "bg-primary-500 text-white hover:bg-primary-600 shadow-sm",
     secondary:
-      "bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700",
+      "bg-[var(--component-bg)] text-[var(--text-secondary)] hover:bg-[var(--component-bg-hover)] border border-[var(--component-border)]",
     ghost:
-      "bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-200",
+      "bg-transparent hover:bg-[var(--component-bg)] text-[var(--text-tertiary)]",
     danger:
       "bg-red-500/15 text-red-500 hover:bg-red-500/25 border border-red-500/20",
   };

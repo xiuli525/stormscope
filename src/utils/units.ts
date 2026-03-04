@@ -60,7 +60,10 @@ export function formatPrecipitation(
   return `${value} ${unit}`;
 }
 
-export function getWindDirectionLabel(degrees: number): string {
+export function getWindDirectionLabel(
+  degrees: number,
+  t?: (key: string) => string,
+): string {
   const directions = [
     "N",
     "NNE",
@@ -80,21 +83,30 @@ export function getWindDirectionLabel(degrees: number): string {
     "NNW",
   ];
   const index = Math.round(degrees / 22.5) % 16;
-  return directions[index];
+  const dir = directions[index];
+  return t ? t(`wind.${dir}`) : dir;
 }
 
-export function getUvLabel(index: number): { label: string; color: string } {
-  if (index <= 2) return { label: "Low", color: "#22c55e" };
-  if (index <= 5) return { label: "Moderate", color: "#eab308" };
-  if (index <= 7) return { label: "High", color: "#f97316" };
-  if (index <= 10) return { label: "Very High", color: "#ef4444" };
-  return { label: "Extreme", color: "#a855f7" };
+export function getUvLabel(
+  index: number,
+  t?: (key: string) => string,
+): { label: string; color: string } {
+  if (index <= 2) return { label: t ? t("uv.low") : "Low", color: "#22c55e" };
+  if (index <= 5)
+    return { label: t ? t("uv.moderate") : "Moderate", color: "#eab308" };
+  if (index <= 7) return { label: t ? t("uv.high") : "High", color: "#f97316" };
+  if (index <= 10)
+    return { label: t ? t("uv.veryHigh") : "Very High", color: "#ef4444" };
+  return { label: t ? t("uv.extreme") : "Extreme", color: "#a855f7" };
 }
 
-export function getVisibilityLabel(km: number): string {
-  if (km < 1) return "Very Poor";
-  if (km < 4) return "Poor";
-  if (km < 10) return "Moderate";
-  if (km < 20) return "Good";
-  return "Excellent";
+export function getVisibilityLabel(
+  km: number,
+  t?: (key: string) => string,
+): string {
+  if (km < 1) return t ? t("visibility.veryPoor") : "Very Poor";
+  if (km < 4) return t ? t("visibility.poor") : "Poor";
+  if (km < 10) return t ? t("visibility.moderate") : "Moderate";
+  if (km < 20) return t ? t("visibility.good") : "Good";
+  return t ? t("visibility.excellent") : "Excellent";
 }

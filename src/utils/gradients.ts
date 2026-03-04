@@ -42,16 +42,33 @@ export function getUvColor(index: number): string {
 export function getSkyGradient(
   weatherCode: number,
   isDay: boolean,
+  isLight = false,
 ): [string, string] {
-  if (!isDay) return ["#0f172a", "#1e293b"];
+  // Light mode: soft, muted sky gradients
+  if (isLight) {
+    if (!isDay) return ["#1e293b", "#334155"];
 
-  if (weatherCode === 0 || weatherCode === 1) return ["#38bdf8", "#0ea5e9"];
-  if (weatherCode === 2) return ["#7dd3fc", "#38bdf8"];
-  if (weatherCode === 3) return ["#94a3b8", "#64748b"];
-  if (weatherCode === 45 || weatherCode === 48) return ["#cbd5e1", "#94a3b8"];
-  if (weatherCode >= 51 && weatherCode <= 67) return ["#64748b", "#475569"];
-  if (weatherCode >= 71 && weatherCode <= 86) return ["#e2e8f0", "#cbd5e1"];
-  if (weatherCode >= 95) return ["#374151", "#1f2937"];
+    if (weatherCode === 0 || weatherCode === 1) return ["#bfdbfe", "#dbeafe"]; // clear → soft blue
+    if (weatherCode === 2) return ["#c7d2fe", "#e0e7ff"]; // partly cloudy → lavender blue
+    if (weatherCode === 3) return ["#cbd5e1", "#e2e8f0"]; // overcast → slate
+    if (weatherCode === 45 || weatherCode === 48) return ["#d1d5db", "#e5e7eb"]; // fog → gray
+    if (weatherCode >= 51 && weatherCode <= 67) return ["#bfdbfe", "#cbd5e1"]; // rain → blue-gray
+    if (weatherCode >= 71 && weatherCode <= 86) return ["#e2e8f0", "#f1f5f9"]; // snow → light slate
+    if (weatherCode >= 95) return ["#94a3b8", "#cbd5e1"]; // storm → darker slate
 
-  return ["#38bdf8", "#0ea5e9"];
+    return ["#bfdbfe", "#dbeafe"];
+  }
+
+  // Dark mode: original deep gradients
+  if (!isDay) return ["#080C18", "#0F1629"];
+
+  if (weatherCode === 0 || weatherCode === 1) return ["#1e40af", "#3b82f6"];
+  if (weatherCode === 2) return ["#1e3a8a", "#2563eb"];
+  if (weatherCode === 3) return ["#1e293b", "#334155"];
+  if (weatherCode === 45 || weatherCode === 48) return ["#1e293b", "#475569"];
+  if (weatherCode >= 51 && weatherCode <= 67) return ["#0f172a", "#1e3a5f"];
+  if (weatherCode >= 71 && weatherCode <= 86) return ["#1e293b", "#334155"];
+  if (weatherCode >= 95) return ["#0f172a", "#1e293b"];
+
+  return ["#1e40af", "#3b82f6"];
 }

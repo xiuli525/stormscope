@@ -10,6 +10,9 @@ interface ForecastCardProps {
   tempMin: number;
   weatherCode: number;
   precipProb: number;
+  /** Optional global min/max for the entire forecast period (improves bar accuracy) */
+  globalMin?: number;
+  globalMax?: number;
   onClick?: () => void;
 }
 
@@ -19,32 +22,39 @@ export function ForecastCard({
   tempMin,
   weatherCode,
   precipProb,
+  globalMin,
+  globalMax,
   onClick,
 }: ForecastCardProps) {
   const { temperatureUnit } = useSettingsStore();
 
-  const MIN_TEMP = -10;
-  const MAX_TEMP = 40;
-  const RANGE = MAX_TEMP - MIN_TEMP;
+  const MIN_TEMP = globalMin != null ? Math.floor(globalMin) - 5 : -40;
+  const MAX_TEMP = globalMax != null ? Math.ceil(globalMax) + 5 : 50;
+  const RANGE = MAX_TEMP - MIN_TEMP || 1;
 
   const left = Math.max(0, Math.min(100, ((tempMin - MIN_TEMP) / RANGE) * 100));
-  const width = Math.max(5, Math.min(100, ((tempMax - tempMin) / RANGE) * 100));
+  const width = Math.max(
+    5,
+    Math.min(100 - left, ((tempMax - tempMin) / RANGE) * 100),
+  );
 
   return (
     <div
       onClick={onClick}
-      className="grid grid-cols-[60px_40px_1fr_50px] items-center gap-4 py-3 px-4 hover:bg-white/5 rounded-lg transition-colors cursor-pointer border-b border-white/5 last:border-0"
+      className="grid grid-cols-[60px_40px_1fr_50px] items-center gap-4 py-3 px-4 hover:bg-[var(--component-bg)] rounded-lg transition-colors cursor-pointer border-b border-[var(--glass-border-subtle)] last:border-0"
     >
-      <span className="text-white font-medium">{formatDayShort(date)}</span>
+      <span className="text-[var(--text-primary)] font-medium">
+        {formatDayShort(date)}
+      </span>
 
       <WeatherIcon code={weatherCode} size="sm" className="w-8 h-8" />
 
       <div className="flex items-center gap-3 w-full">
-        <span className="text-white/60 text-sm w-8 text-right">
+        <span className="text-[var(--text-tertiary)] text-sm w-8 text-right">
           {convertTemperature(tempMin, temperatureUnit)}°
         </span>
 
-        <div className="flex-1 h-1.5 bg-white/10 rounded-full relative overflow-hidden">
+        <div className="flex-1 h-1.5 bg-[var(--component-bg)] rounded-full relative overflow-hidden">
           <div
             className="absolute h-full rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-orange-400 opacity-80"
             style={{
@@ -54,7 +64,7 @@ export function ForecastCard({
           />
         </div>
 
-        <span className="text-white font-bold text-sm w-8">
+        <span className="text-[var(--text-primary)] font-bold text-sm w-8">
           {convertTemperature(tempMax, temperatureUnit)}°
         </span>
       </div>

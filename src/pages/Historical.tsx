@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import ReactECharts from "echarts-for-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import {
   Calendar,
   CloudRain,
@@ -14,6 +15,7 @@ import { HeatCalendar } from "@/components/charts";
 import { useHistorical } from "@/hooks/useHistorical";
 import { useFavoritesStore } from "@/stores/favorites";
 import { useSettingsStore } from "@/stores/settings";
+import { useThemeStore } from "@/stores/theme";
 import { cn } from "@/utils/cn";
 import {
   formatTemperature,
@@ -25,17 +27,21 @@ import { echarts } from "@/themes/register";
 
 const DEFAULT_CITY = {
   id: "beijing",
-  name: "Beijing",
-  country: "China",
+  name: "北京",
+  country: "中国",
   countryCode: "CN",
   latitude: 39.9042,
   longitude: 116.4074,
 };
 
 export default function Historical() {
+  const { t } = useTranslation();
   const { currentCity } = useFavoritesStore();
   const { temperatureUnit, windSpeedUnit, precipitationUnit } =
     useSettingsStore();
+  const { resolvedTheme } = useThemeStore();
+  const themeName =
+    resolvedTheme === "dark" ? "stormscope-dark" : "stormscope-light";
 
   const city = currentCity ?? DEFAULT_CITY;
   const currentYear = new Date().getFullYear();
@@ -89,13 +95,9 @@ export default function Historical() {
     return {
       tooltip: {
         trigger: "axis",
-        backgroundColor: "rgba(24, 24, 27, 0.9)",
-        borderColor: "#3f3f46",
-        textStyle: { color: "#fafafa" },
       },
       legend: {
-        data: ["Max Temp", "Min Temp"],
-        textStyle: { color: "#a1a1aa" },
+        data: [t("historical.maxTemp"), t("historical.minTemp")],
         bottom: 0,
       },
       grid: {
@@ -109,18 +111,14 @@ export default function Historical() {
         type: "category",
         boundaryGap: false,
         data: historical.time,
-        axisLine: { lineStyle: { color: "#3f3f46" } },
-        axisLabel: { color: "#a1a1aa" },
       },
       yAxis: {
         type: "value",
         axisLine: { show: false },
-        splitLine: { lineStyle: { color: "#3f3f46" } },
-        axisLabel: { color: "#a1a1aa" },
       },
       series: [
         {
-          name: "Max Temp",
+          name: t("historical.maxTemp"),
           type: "line",
           smooth: true,
           showSymbol: false,
@@ -134,7 +132,7 @@ export default function Historical() {
           data: historical.temperatureMax,
         },
         {
-          name: "Min Temp",
+          name: t("historical.minTemp"),
           type: "line",
           smooth: true,
           showSymbol: false,
@@ -149,7 +147,7 @@ export default function Historical() {
         },
       ],
     };
-  }, [historical]);
+  }, [historical, t]);
 
   const yearOptions = [
     { value: String(currentYear), label: String(currentYear) },
@@ -162,12 +160,12 @@ export default function Historical() {
     <div className="space-y-6 p-6 pb-20 md:pb-6 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] flex items-center gap-2">
             <Calendar className="w-8 h-8 text-blue-400" />
-            Historical Data
+            {t("historical.title")}
           </h1>
-          <p className="text-zinc-400 mt-1">
-            Weather archive for{" "}
+          <p className="text-[var(--text-tertiary)] mt-1">
+            {t("historical.weatherArchive")}{" "}
             <span className="text-blue-300 font-medium">{city.name}</span>,{" "}
             {city.country}
           </p>
@@ -178,7 +176,7 @@ export default function Historical() {
             value={selectedYear}
             onChange={(val: string) => setSelectedYear(val)}
             options={yearOptions}
-            label="Year"
+            label={t("historical.year")}
           />
         </div>
       </div>
@@ -188,32 +186,32 @@ export default function Historical() {
           {[...Array(4)].map((_, i) => (
             <Skeleton
               key={i}
-              className="h-32 w-full rounded-xl bg-zinc-800/50"
+              className="h-32 w-full rounded-xl bg-[var(--skeleton-bg)]"
             />
           ))}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
-            title="Avg Max Temp"
+            title={t("historical.avgMaxTemp")}
             value={formatTemperature(stats.avgMax, temperatureUnit)}
             icon={<Thermometer className="w-5 h-5 text-red-400" />}
             color="bg-red-500/10 border-red-500/20"
           />
           <StatCard
-            title="Avg Min Temp"
+            title={t("historical.avgMinTemp")}
             value={formatTemperature(stats.avgMin, temperatureUnit)}
             icon={<Thermometer className="w-5 h-5 text-blue-400" />}
             color="bg-blue-500/10 border-blue-500/20"
           />
           <StatCard
-            title="Total Rainfall"
+            title={t("historical.totalRainfall")}
             value={formatPrecipitation(stats.totalPrecip, precipitationUnit)}
             icon={<CloudRain className="w-5 h-5 text-cyan-400" />}
             color="bg-cyan-500/10 border-cyan-500/20"
           />
           <StatCard
-            title="Max Wind Speed"
+            title={t("historical.maxWindSpeed")}
             value={formatWindSpeed(stats.maxWind, windSpeedUnit)}
             icon={<Wind className="w-5 h-5 text-emerald-400" />}
             color="bg-emerald-500/10 border-emerald-500/20"
@@ -222,33 +220,35 @@ export default function Historical() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 p-6 min-h-[400px] flex flex-col bg-zinc-900/40 backdrop-blur-xl border-white/10">
+        <Card className="lg:col-span-2 p-6 min-h-[400px] flex flex-col bg-[var(--glass-l2-bg)] backdrop-blur-xl border-[var(--glass-border-default)]">
           <div className="flex items-center gap-2 mb-6">
             <TrendingUp className="w-5 h-5 text-purple-400" />
-            <h2 className="text-xl font-semibold text-white">
-              Temperature Trend
+            <h2 className="text-xl font-semibold text-[var(--text-primary)]">
+              {t("historical.temperatureTrend")}
             </h2>
           </div>
           {isLoading ? (
-            <Skeleton className="w-full h-full flex-1 rounded-lg bg-zinc-800/50" />
+            <Skeleton className="w-full h-full flex-1 rounded-lg bg-[var(--skeleton-bg)]" />
           ) : (
             <div className="flex-1 w-full min-h-[300px]">
               <ReactECharts
                 option={chartOption}
                 style={{ height: "100%", width: "100%" }}
-                theme="dark"
+                theme={themeName}
               />
             </div>
           )}
         </Card>
 
-        <Card className="lg:col-span-1 p-6 bg-zinc-900/40 backdrop-blur-xl border-white/10">
+        <Card className="lg:col-span-1 p-6 bg-[var(--glass-l2-bg)] backdrop-blur-xl border-[var(--glass-border-default)]">
           <div className="flex items-center gap-2 mb-6">
             <Calendar className="w-5 h-5 text-orange-400" />
-            <h2 className="text-xl font-semibold text-white">Heat Calendar</h2>
+            <h2 className="text-xl font-semibold text-[var(--text-primary)]">
+              {t("historical.heatCalendar")}
+            </h2>
           </div>
           {isLoading || !historical ? (
-            <Skeleton className="w-full h-[300px] rounded-lg bg-zinc-800/50" />
+            <Skeleton className="w-full h-[300px] rounded-lg bg-[var(--skeleton-bg)]" />
           ) : (
             <HeatCalendar data={historical} year={selectedYear} />
           )}
@@ -276,15 +276,19 @@ function StatCard({
     >
       <Card
         className={cn(
-          "p-5 flex flex-col justify-between h-full border backdrop-blur-md bg-zinc-900/40",
+          "p-5 flex flex-col justify-between h-full border backdrop-blur-md bg-[var(--glass-l2-bg)]",
           color,
         )}
       >
         <div className="flex justify-between items-start mb-2">
-          <span className="text-zinc-400 text-sm font-medium">{title}</span>
-          <div className="p-2 rounded-full bg-white/5">{icon}</div>
+          <span className="text-[var(--text-tertiary)] text-sm font-medium">
+            {title}
+          </span>
+          <div className="p-2 rounded-full bg-[var(--component-bg)]">
+            {icon}
+          </div>
         </div>
-        <div className="text-2xl font-bold text-white tracking-tight">
+        <div className="text-2xl font-bold text-[var(--text-primary)] tracking-tight">
           {value}
         </div>
       </Card>

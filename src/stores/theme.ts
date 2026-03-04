@@ -33,7 +33,17 @@ export const useThemeStore = create<ThemeStore>()(
         set({ theme, resolvedTheme: resolved });
       },
     }),
-    { name: "stormscope-theme" },
+    {
+      name: "stormscope-theme",
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          const resolved =
+            state.theme === "system" ? getSystemTheme() : state.theme;
+          applyTheme(resolved);
+          state.resolvedTheme = resolved;
+        }
+      },
+    },
   ),
 );
 

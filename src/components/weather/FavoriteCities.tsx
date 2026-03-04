@@ -1,5 +1,6 @@
 import { X, Star, MapPin, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui";
 import { useFavoritesStore } from "@/stores/favorites";
 import { useSettingsStore } from "@/stores/settings";
@@ -10,16 +11,19 @@ import { formatTemperature } from "@/utils/units";
 import type { FavoriteCity } from "@/types/geocoding";
 
 export function FavoriteCities() {
+  const { t } = useTranslation();
   const { favorites, currentCity, setCurrentCity, removeFavorite } =
     useFavoritesStore();
 
   if (favorites.length === 0) {
     return (
       <Card variant="glass" className="text-center py-8">
-        <Star className="w-8 h-8 text-white/40 mx-auto mb-2" />
-        <p className="text-sm text-white/60">No favorite cities yet</p>
-        <p className="text-xs text-white/40 mt-1">
-          Search for a city and add it to favorites
+        <Star className="w-8 h-8 text-[var(--text-muted)] mx-auto mb-2" />
+        <p className="text-sm text-[var(--text-tertiary)]">
+          {t("favorites.noFavorites")}
+        </p>
+        <p className="text-xs text-[var(--text-muted)] mt-1">
+          {t("favorites.addHint")}
         </p>
       </Card>
     );
@@ -27,8 +31,8 @@ export function FavoriteCities() {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-medium text-white/60 uppercase tracking-wider px-2">
-        Favorites
+      <h3 className="text-sm font-medium text-[var(--text-tertiary)] uppercase tracking-wider px-2">
+        {t("favorites.title")}
       </h3>
       <AnimatePresence mode="popLayout">
         {favorites.slice(0, 5).map((city) => (
@@ -75,7 +79,7 @@ function FavoriteCityItem({
         "group relative flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-300 border",
         isActive
           ? "bg-primary-500/20 border-primary-500/50 shadow-lg shadow-primary-500/10"
-          : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/10",
+          : "bg-[var(--component-bg)] border-[var(--glass-border-subtle)] hover:bg-[var(--component-bg-hover)] hover:border-[var(--glass-border-default)]",
       )}
     >
       <div className="flex items-center gap-3 overflow-hidden">
@@ -84,7 +88,7 @@ function FavoriteCityItem({
             "p-2 rounded-lg shrink-0 transition-colors",
             isActive
               ? "bg-primary-500/20 text-primary-300"
-              : "bg-white/5 text-white/40",
+              : "bg-[var(--component-bg)] text-[var(--text-muted)]",
           )}
         >
           <MapPin className="w-4 h-4" />
@@ -94,18 +98,22 @@ function FavoriteCityItem({
           <span
             className={cn(
               "text-sm font-medium truncate transition-colors",
-              isActive ? "text-white" : "text-white/80",
+              isActive
+                ? "text-[var(--text-primary)]"
+                : "text-[var(--text-secondary)]",
             )}
           >
             {city.name}
           </span>
-          <span className="text-xs text-white/40 truncate">{city.country}</span>
+          <span className="text-xs text-[var(--text-muted)] truncate">
+            {city.country}
+          </span>
         </div>
       </div>
 
       <div className="flex items-center gap-3 pl-2 shrink-0">
         {isLoading ? (
-          <Loader2 className="w-4 h-4 animate-spin text-white/20" />
+          <Loader2 className="w-4 h-4 animate-spin text-[var(--text-muted)]" />
         ) : weather ? (
           <>
             <WeatherIcon
@@ -114,7 +122,7 @@ function FavoriteCityItem({
               size="sm"
               className="w-8 h-8"
             />
-            <span className="text-sm font-bold text-white w-8 text-right">
+            <span className="text-sm font-bold text-[var(--text-primary)] w-8 text-right">
               {formatTemperature(weather.current.temperature, temperatureUnit)}
             </span>
           </>

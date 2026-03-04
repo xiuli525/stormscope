@@ -1,4 +1,3 @@
-import React from "react";
 import { cn } from "../../utils/cn";
 
 interface SkeletonProps {
@@ -7,7 +6,7 @@ interface SkeletonProps {
 }
 
 export function Skeleton({ className, variant = "text" }: SkeletonProps) {
-  const baseStyles = "animate-pulse bg-neutral-200 dark:bg-neutral-700";
+  const baseStyles = "animate-pulse bg-[var(--skeleton-bg)]";
 
   const variants = {
     text: "h-4 w-full rounded",

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import ReactECharts from "echarts-for-react";
 import { echarts } from "@/themes/register";
 import { useThemeStore } from "@/stores/theme";
-import { HourlyForecast } from "@/types/weather";
+import type { HourlyForecast } from "@/types/weather";
 import { formatHour } from "@/utils/date";
 import { getPrecipitationColor } from "@/utils/gradients";
 

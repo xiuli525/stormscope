@@ -1,4 +1,3 @@
-import React from "react";
 import { Search, X, Loader2 } from "lucide-react";
 import { cn } from "../../utils/cn";
 
@@ -25,9 +24,9 @@ export function SearchInput({
       )}
     >
       {loading ? (
-        <Loader2 className="w-4 h-4 mr-2 text-neutral-500 animate-spin shrink-0" />
+        <Loader2 className="w-4 h-4 mr-2 text-[var(--text-muted)] animate-spin shrink-0" />
       ) : (
-        <Search className="w-4 h-4 mr-2 text-neutral-500 shrink-0" />
+        <Search className="w-4 h-4 mr-2 text-[var(--text-muted)] shrink-0" />
       )}
 
       <input
@@ -35,7 +34,7 @@ export function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="flex-1 bg-transparent border-none outline-none placeholder-neutral-400 text-[var(--text-primary)] min-w-0"
+        className="flex-1 bg-transparent border-none outline-none placeholder-[var(--text-muted)] text-[var(--text-primary)] min-w-0"
       />
 
       {value && (
@@ -45,7 +44,7 @@ export function SearchInput({
           className="ml-2 focus:outline-none"
           aria-label="Clear search"
         >
-          <X className="w-4 h-4 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors shrink-0" />
+          <X className="w-4 h-4 text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors shrink-0" />
         </button>
       )}
     </div>

@@ -2,49 +2,58 @@
 
 /* ============================================
    StormScope Design Tokens — Tailwind CSS v4
+   Midnight Blue + Premium Glass Theme
    ============================================ */
 
 @theme {
-  /* === Color System (OKLCH) === */
+  /* === Color System === */
 
-  /* Primary — Sky Blue */
-  --color-primary-50: oklch(0.97 0.02 230);
-  --color-primary-100: oklch(0.93 0.04 230);
-  --color-primary-200: oklch(0.86 0.08 230);
-  --color-primary-300: oklch(0.76 0.12 230);
-  --color-primary-400: oklch(0.65 0.16 230);
-  --color-primary-500: oklch(0.55 0.18 230);
-  --color-primary-600: oklch(0.48 0.18 230);
-  --color-primary-700: oklch(0.4 0.16 230);
-  --color-primary-800: oklch(0.33 0.12 230);
-  --color-primary-900: oklch(0.27 0.08 230);
+  /* Primary — Deep Sky Blue */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
 
-  /* Neutral */
-  --color-neutral-50: oklch(0.98 0.005 260);
-  --color-neutral-100: oklch(0.94 0.008 260);
-  --color-neutral-200: oklch(0.88 0.01 260);
-  --color-neutral-300: oklch(0.78 0.012 260);
-  --color-neutral-400: oklch(0.62 0.015 260);
-  --color-neutral-500: oklch(0.5 0.015 260);
-  --color-neutral-600: oklch(0.4 0.012 260);
-  --color-neutral-700: oklch(0.32 0.01 260);
-  --color-neutral-800: oklch(0.23 0.01 260);
-  --color-neutral-900: oklch(0.16 0.01 260);
-  --color-neutral-950: oklch(0.1 0.01 260);
+  /* Neutral — Cool Slate */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
 
   /* Status Colors */
-  --color-success: oklch(0.65 0.18 145);
-  --color-warning: oklch(0.75 0.18 75);
-  --color-danger: oklch(0.6 0.22 25);
-  --color-info: oklch(0.6 0.16 250);
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Weather Accent Colors */
+  --color-weather-clear: #60a5fa;
+  --color-weather-storm: #818cf8;
+  --color-weather-rain: #38bdf8;
+  --color-weather-snow: #bae6fd;
+  --color-weather-heat: #fb923c;
+  --color-weather-cold: #a5b4fc;
 
   /* AQI Colors */
-  --color-aqi-good: oklch(0.72 0.2 145);
-  --color-aqi-moderate: oklch(0.8 0.18 90);
-  --color-aqi-unhealthy-sensitive: oklch(0.7 0.18 55);
-  --color-aqi-unhealthy: oklch(0.55 0.22 25);
-  --color-aqi-very-unhealthy: oklch(0.45 0.22 320);
-  --color-aqi-hazardous: oklch(0.35 0.15 15);
+  --color-aqi-good: #22c55e;
+  --color-aqi-moderate: #eab308;
+  --color-aqi-unhealthy-sensitive: #f97316;
+  --color-aqi-unhealthy: #ef4444;
+  --color-aqi-very-unhealthy: #a855f7;
+  --color-aqi-hazardous: #991b1b;
 
   /* === Typography === */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
@@ -61,10 +70,13 @@
   --radius-button: 0.625rem;
 
   /* === Shadows === */
-  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.08), 0 1px 2px rgb(0 0 0 / 0.06);
-  --shadow-card-hover:
-    0 4px 12px rgb(0 0 0 / 0.12), 0 2px 4px rgb(0 0 0 / 0.08);
-  --shadow-glass: 0 8px 32px rgb(0 0 0 / 0.08);
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.2), 0 1px 2px rgb(0 0 0 / 0.15);
+  --shadow-card-hover: 0 8px 25px rgb(0 0 0 / 0.3), 0 4px 10px rgb(0 0 0 / 0.2);
+  --shadow-glass:
+    0 8px 32px rgb(0 0 0 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.05);
+  --shadow-glow-blue:
+    0 0 20px rgb(59 130 246 / 0.15), 0 0 60px rgb(59 130 246 / 0.05);
+  --shadow-glow-primary: 0 4px 15px rgb(59 130 246 / 0.2);
 
   /* === Transitions === */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -75,63 +87,135 @@
   --breakpoint-xs: 475px;
 }
 
-/* === Glass Morphism Variables === */
-:root {
-  --glass-hero-bg: rgb(255 255 255 / 0.25);
-  --glass-hero-blur: 20px;
-  --glass-secondary-bg: rgb(255 255 255 / 0.15);
-  --glass-secondary-blur: 12px;
-  --glass-subtle-bg: rgb(255 255 255 / 0.08);
-  --glass-subtle-blur: 8px;
-  --glass-border: rgb(255 255 255 / 0.2);
-
-  /* Surface Colors */
-  --surface-primary: oklch(0.99 0.005 260);
-  --surface-secondary: oklch(0.96 0.005 260);
-  --surface-tertiary: oklch(0.93 0.008 260);
-  --text-primary: oklch(0.16 0.01 260);
-  --text-secondary: oklch(0.4 0.012 260);
-  --text-tertiary: oklch(0.55 0.015 260);
-}
-
-/* === Dark Mode === */
+/* === Midnight Blue Theme (Default — Dark) === */
+:root,
 .dark {
-  --glass-hero-bg: rgb(15 23 42 / 0.45);
-  --glass-hero-blur: 20px;
-  --glass-secondary-bg: rgb(15 23 42 / 0.35);
-  --glass-secondary-blur: 12px;
-  --glass-subtle-bg: rgb(15 23 42 / 0.2);
-  --glass-subtle-blur: 8px;
-  --glass-border: rgb(255 255 255 / 0.08);
+  /* Page backgrounds */
+  --page-bg: #080c18;
+  --surface-primary: #0f1629;
+  --surface-secondary: #131f3d;
+  --surface-tertiary: #1a2548;
 
-  --surface-primary: oklch(0.14 0.01 260);
-  --surface-secondary: oklch(0.18 0.01 260);
-  --surface-tertiary: oklch(0.22 0.012 260);
-  --text-primary: oklch(0.94 0.008 260);
-  --text-secondary: oklch(0.7 0.012 260);
-  --text-tertiary: oklch(0.55 0.015 260);
+  /* Glass layers */
+  --glass-l1-bg: rgb(255 255 255 / 0.04);
+  --glass-l2-bg: rgb(255 255 255 / 0.08);
+  --glass-l3-bg: rgb(255 255 255 / 0.14);
+  --glass-blur: 24px;
+  --glass-saturate: saturate(180%);
+  --glass-border-subtle: rgb(255 255 255 / 0.06);
+  --glass-border-default: rgb(255 255 255 / 0.1);
+  --glass-border-strong: rgb(255 255 255 / 0.18);
+
+  /* Legacy glass aliases */
+  --glass-hero-bg: rgb(255 255 255 / 0.14);
+  --glass-hero-blur: 24px;
+  --glass-secondary-bg: rgb(255 255 255 / 0.08);
+  --glass-secondary-blur: 24px;
+  --glass-subtle-bg: rgb(255 255 255 / 0.04);
+  --glass-subtle-blur: 16px;
+  --glass-border: rgb(255 255 255 / 0.1);
+
+  /* Typography */
+  --text-primary: #f0f6ff;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #4b6cb7;
+  --text-muted: #4b5563;
+
+  --component-bg: rgb(255 255 255 / 0.08);
+  --component-bg-hover: rgb(255 255 255 / 0.12);
+  --component-bg-active: rgb(255 255 255 / 0.16);
+  --component-border: rgb(255 255 255 / 0.1);
+
+  --overlay-bg: rgb(15 22 41 / 0.95);
+  --overlay-border: rgb(255 255 255 / 0.1);
+
+  --skeleton-bg: rgb(255 255 255 / 0.1);
+
+  --scrollbar-thumb: rgb(148 163 184 / 0.2);
+  --scrollbar-thumb-hover: rgb(148 163 184 / 0.4);
 }
 
-/* === Glass Utility Classes === */
+/* === Light Theme === */
+.light {
+  /* Page backgrounds */
+  --page-bg: #f0f4f8;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f1f5f9;
+  --surface-tertiary: #e2e8f0;
+
+  /* Glass layers — frosted white with subtle tints */
+  --glass-l1-bg: rgb(255 255 255 / 0.6);
+  --glass-l2-bg: rgb(255 255 255 / 0.75);
+  --glass-l3-bg: rgb(255 255 255 / 0.85);
+  --glass-blur: 20px;
+  --glass-saturate: saturate(120%);
+  --glass-border-subtle: rgb(0 0 0 / 0.06);
+  --glass-border-default: rgb(0 0 0 / 0.1);
+  --glass-border-strong: rgb(0 0 0 / 0.15);
+
+  /* Legacy glass aliases */
+  --glass-hero-bg: rgb(255 255 255 / 0.85);
+  --glass-hero-blur: 20px;
+  --glass-secondary-bg: rgb(255 255 255 / 0.75);
+  --glass-secondary-blur: 20px;
+  --glass-subtle-bg: rgb(255 255 255 / 0.6);
+  --glass-subtle-blur: 16px;
+  --glass-border: rgb(0 0 0 / 0.1);
+
+  /* Typography */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Semantic surface colors for components */
+  --component-bg: rgb(241 245 249 / 0.7);
+  --component-bg-hover: rgb(226 232 240 / 0.6);
+  --component-bg-active: rgb(226 232 240 / 0.8);
+  --component-border: rgb(0 0 0 / 0.08);
+
+  /* Shadows — lighter, more diffuse for airy feel */
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-card-hover:
+    0 8px 25px rgb(0 0 0 / 0.08), 0 4px 10px rgb(0 0 0 / 0.05);
+  --shadow-glass:
+    0 4px 16px rgb(0 0 0 / 0.06), inset 0 1px 0 rgb(255 255 255 / 0.8);
+  --shadow-glow-blue:
+    0 0 20px rgb(59 130 246 / 0.08), 0 0 60px rgb(59 130 246 / 0.03);
+  --shadow-glow-primary: 0 4px 15px rgb(59 130 246 / 0.1);
+
+  /* Overlay / dropdown surfaces */
+  --overlay-bg: rgb(255 255 255 / 0.95);
+  --overlay-border: rgb(0 0 0 / 0.1);
+
+  /* Skeleton / loading */
+  --skeleton-bg: rgb(0 0 0 / 0.06);
+
+  /* Scrollbar */
+  --scrollbar-thumb: rgb(148 163 184 / 0.3);
+  --scrollbar-thumb-hover: rgb(148 163 184 / 0.5);
+}
+
+/* === Glass Morphism Utility Classes === */
 .glass-hero {
-  background: var(--glass-hero-bg);
-  backdrop-filter: blur(var(--glass-hero-blur));
-  -webkit-backdrop-filter: blur(var(--glass-hero-blur));
-  border: 1px solid var(--glass-border);
+  background: var(--glass-l3-bg);
+  backdrop-filter: blur(var(--glass-blur)) var(--glass-saturate);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) var(--glass-saturate);
+  border: 1px solid var(--glass-border-strong);
 }
 
 .glass-secondary {
-  background: var(--glass-secondary-bg);
-  backdrop-filter: blur(var(--glass-secondary-blur));
-  -webkit-backdrop-filter: blur(var(--glass-secondary-blur));
-  border: 1px solid var(--glass-border);
+  background: var(--glass-l2-bg);
+  backdrop-filter: blur(var(--glass-blur)) var(--glass-saturate);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) var(--glass-saturate);
+  border: 1px solid var(--glass-border-default);
 }
 
 .glass-subtle {
-  background: var(--glass-subtle-bg);
-  backdrop-filter: blur(var(--glass-subtle-blur));
-  -webkit-backdrop-filter: blur(var(--glass-subtle-blur));
-  border: 1px solid var(--glass-border);
+  background: var(--glass-l1-bg);
+  backdrop-filter: blur(16px) var(--glass-saturate);
+  -webkit-backdrop-filter: blur(16px) var(--glass-saturate);
+  border: 1px solid var(--glass-border-subtle);
 }
 
 /* === Base Styles === */
@@ -144,7 +228,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--surface-primary);
+  background: var(--page-bg);
   color: var(--text-primary);
   font-family: var(--font-sans);
   transition:
@@ -163,7 +247,7 @@ body {
   border-radius: var(--radius-card);
 }
 
-/* === Scrollbar === */
+/* === Scrollbar — Midnight Style === */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -174,18 +258,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.7 0.01 260 / 0.4);
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.6 0.01 260 / 0.6);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: oklch(0.4 0.01 260 / 0.4);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.5 0.01 260 / 0.6);
+  background: var(--scrollbar-thumb-hover);
 }

@@ -20,9 +20,11 @@ export function Card({
 
   const variants = {
     default:
-      "bg-[var(--surface-primary)] shadow-card rounded-card border border-neutral-200 dark:border-neutral-800",
-    glass: "glass-secondary rounded-card shadow-glass border border-white/10",
-    "glass-hero": "glass-hero rounded-card shadow-glass border border-white/20",
+      "bg-[var(--surface-primary)] shadow-[var(--shadow-card)] rounded-card border border-[var(--glass-border-default)]",
+    glass:
+      "glass-secondary rounded-card shadow-[var(--shadow-glass)] border border-[var(--glass-border-default)]",
+    "glass-hero":
+      "glass-hero rounded-card shadow-[var(--shadow-glass)] border border-[var(--glass-border-strong)]",
   };
 
   return (

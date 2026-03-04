@@ -16,8 +16,7 @@ export function Badge({
     "inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-badge transition-colors";
 
   const variants = {
-    default:
-      "bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200",
+    default: "bg-[var(--component-bg)] text-[var(--text-secondary)]",
     success: "bg-success/15 text-success border border-success/10",
     warning: "bg-warning/15 text-warning border border-warning/10",
     danger: "bg-danger/15 text-danger border border-danger/10",

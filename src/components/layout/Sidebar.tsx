@@ -9,18 +9,20 @@ import {
   Menu,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { cn } from "../../utils/cn";
 
 export function Sidebar() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { to: "/", label: "Dashboard", icon: LayoutDashboard },
-    { to: "/air-quality", label: "Air Quality", icon: Wind },
-    { to: "/forecast", label: "Forecast", icon: CloudSun },
-    { to: "/map", label: "Map", icon: Map },
-    { to: "/historical", label: "Historical", icon: History },
-    { to: "/settings", label: "Settings", icon: Settings2 },
+    { to: "/", label: t("nav.dashboard"), icon: LayoutDashboard },
+    { to: "/air-quality", label: t("nav.airQuality"), icon: Wind },
+    { to: "/forecast", label: t("nav.forecast"), icon: CloudSun },
+    { to: "/map", label: t("nav.map"), icon: Map },
+    { to: "/historical", label: t("nav.historical"), icon: History },
+    { to: "/settings", label: t("nav.settings"), icon: Settings2 },
   ];
 
   return (
@@ -28,21 +30,21 @@ export function Sidebar() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary-500 text-white shadow-lg md:hidden hover:bg-primary-600 transition-colors"
-        aria-label="Toggle menu"
+        aria-label={t("nav.toggleMenu")}
       >
         <Menu className="w-6 h-6" />
       </button>
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 w-64 glass-secondary border-r border-white/5 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:glass-secondary flex flex-col",
+          "fixed inset-y-0 left-0 z-40 w-64 glass-secondary border-r border-[var(--glass-border-default)] transform transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:glass-secondary flex flex-col",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex-1 overflow-y-auto py-6 px-4">
           <div className="mb-8 md:hidden">
             <h2 className="text-xl font-bold text-[var(--text-primary)] pl-4">
-              Menu
+              {t("nav.menu")}
             </h2>
           </div>
 
@@ -57,7 +59,7 @@ export function Sidebar() {
                     "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden",
                     isActive
                       ? "bg-primary-500/10 text-primary-500 shadow-sm"
-                      : "text-[var(--text-secondary)] hover:bg-white/5 hover:text-[var(--text-primary)]",
+                      : "text-[var(--text-secondary)] hover:bg-[var(--glass-l1-bg)] hover:text-[var(--text-primary)]",
                   )
                 }
               >
@@ -68,7 +70,7 @@ export function Sidebar() {
                         "w-5 h-5 transition-colors relative z-10",
                         isActive
                           ? "text-primary-500"
-                          : "text-neutral-400 group-hover:text-neutral-300",
+                          : "text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]",
                       )}
                     />
                     <span className="font-medium relative z-10">
@@ -84,7 +86,7 @@ export function Sidebar() {
           </nav>
         </div>
 
-        <div className="p-4 border-t border-white/5 bg-black/20">
+        <div className="p-4 border-t border-[var(--glass-border-default)]">
           <div className="text-xs text-center text-[var(--text-tertiary)]">
             StormScope v1.0
           </div>
