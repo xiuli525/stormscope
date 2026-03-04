@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/* ============================================
+   StormScope Design Tokens — Tailwind CSS v4
+   ============================================ */
+
+@theme {
+  /* === Color System (OKLCH) === */
+
+  /* Primary — Sky Blue */
+  --color-primary-50: oklch(0.97 0.02 230);
+  --color-primary-100: oklch(0.93 0.04 230);
+  --color-primary-200: oklch(0.86 0.08 230);
+  --color-primary-300: oklch(0.76 0.12 230);
+  --color-primary-400: oklch(0.65 0.16 230);
+  --color-primary-500: oklch(0.55 0.18 230);
+  --color-primary-600: oklch(0.48 0.18 230);
+  --color-primary-700: oklch(0.4 0.16 230);
+  --color-primary-800: oklch(0.33 0.12 230);
+  --color-primary-900: oklch(0.27 0.08 230);
+
+  /* Neutral */
+  --color-neutral-50: oklch(0.98 0.005 260);
+  --color-neutral-100: oklch(0.94 0.008 260);
+  --color-neutral-200: oklch(0.88 0.01 260);
+  --color-neutral-300: oklch(0.78 0.012 260);
+  --color-neutral-400: oklch(0.62 0.015 260);
+  --color-neutral-500: oklch(0.5 0.015 260);
+  --color-neutral-600: oklch(0.4 0.012 260);
+  --color-neutral-700: oklch(0.32 0.01 260);
+  --color-neutral-800: oklch(0.23 0.01 260);
+  --color-neutral-900: oklch(0.16 0.01 260);
+  --color-neutral-950: oklch(0.1 0.01 260);
+
+  /* Status Colors */
+  --color-success: oklch(0.65 0.18 145);
+  --color-warning: oklch(0.75 0.18 75);
+  --color-danger: oklch(0.6 0.22 25);
+  --color-info: oklch(0.6 0.16 250);
+
+  /* AQI Colors */
+  --color-aqi-good: oklch(0.72 0.2 145);
+  --color-aqi-moderate: oklch(0.8 0.18 90);
+  --color-aqi-unhealthy-sensitive: oklch(0.7 0.18 55);
+  --color-aqi-unhealthy: oklch(0.55 0.22 25);
+  --color-aqi-very-unhealthy: oklch(0.45 0.22 320);
+  --color-aqi-hazardous: oklch(0.35 0.15 15);
+
+  /* === Typography === */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* === Spacing === */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+
+  /* === Border Radius === */
+  --radius-card: 1rem;
+  --radius-badge: 0.5rem;
+  --radius-button: 0.625rem;
+
+  /* === Shadows === */
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.08), 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-card-hover:
+    0 4px 12px rgb(0 0 0 / 0.12), 0 2px 4px rgb(0 0 0 / 0.08);
+  --shadow-glass: 0 8px 32px rgb(0 0 0 / 0.08);
+
+  /* === Transitions === */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* === Breakpoints === */
+  --breakpoint-xs: 475px;
+}
+
+/* === Glass Morphism Variables === */
+:root {
+  --glass-hero-bg: rgb(255 255 255 / 0.25);
+  --glass-hero-blur: 20px;
+  --glass-secondary-bg: rgb(255 255 255 / 0.15);
+  --glass-secondary-blur: 12px;
+  --glass-subtle-bg: rgb(255 255 255 / 0.08);
+  --glass-subtle-blur: 8px;
+  --glass-border: rgb(255 255 255 / 0.2);
+
+  /* Surface Colors */
+  --surface-primary: oklch(0.99 0.005 260);
+  --surface-secondary: oklch(0.96 0.005 260);
+  --surface-tertiary: oklch(0.93 0.008 260);
+  --text-primary: oklch(0.16 0.01 260);
+  --text-secondary: oklch(0.4 0.012 260);
+  --text-tertiary: oklch(0.55 0.015 260);
+}
+
+/* === Dark Mode === */
+.dark {
+  --glass-hero-bg: rgb(15 23 42 / 0.45);
+  --glass-hero-blur: 20px;
+  --glass-secondary-bg: rgb(15 23 42 / 0.35);
+  --glass-secondary-blur: 12px;
+  --glass-subtle-bg: rgb(15 23 42 / 0.2);
+  --glass-subtle-blur: 8px;
+  --glass-border: rgb(255 255 255 / 0.08);
+
+  --surface-primary: oklch(0.14 0.01 260);
+  --surface-secondary: oklch(0.18 0.01 260);
+  --surface-tertiary: oklch(0.22 0.012 260);
+  --text-primary: oklch(0.94 0.008 260);
+  --text-secondary: oklch(0.7 0.012 260);
+  --text-tertiary: oklch(0.55 0.015 260);
+}
+
+/* === Glass Utility Classes === */
+.glass-hero {
+  background: var(--glass-hero-bg);
+  backdrop-filter: blur(var(--glass-hero-blur));
+  -webkit-backdrop-filter: blur(var(--glass-hero-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-secondary {
+  background: var(--glass-secondary-bg);
+  backdrop-filter: blur(var(--glass-secondary-blur));
+  -webkit-backdrop-filter: blur(var(--glass-secondary-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-subtle {
+  background: var(--glass-subtle-bg);
+  backdrop-filter: blur(var(--glass-subtle-blur));
+  -webkit-backdrop-filter: blur(var(--glass-subtle-blur));
+  border: 1px solid var(--glass-border);
+}
+
+/* === Base Styles === */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition:
+    background-color var(--transition-slow),
+    color var(--transition-slow);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* === Leaflet Fix === */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-card);
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.7 0.01 260 / 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0.01 260 / 0.6);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0.01 260 / 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0.01 260 / 0.6);
+}
