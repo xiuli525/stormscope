@@ -6,6 +6,7 @@
     "map": "天气地图",
     "historical": "历史数据",
     "settings": "设置",
+    "globe": "3D 地球",
     "menu": "菜单",
     "toggleMenu": "切换菜单"
   },
@@ -105,7 +106,11 @@
     "aqiStandard": "AQI 标准",
     "usEpa": "美国 EPA",
     "europeanAqi": "欧洲 AQI",
-    "resetAll": "重置所有设置"
+    "resetAll": "重置所有设置",
+    "ai": "AI 天气助手",
+    "aiApiKey": "豆包 API Key",
+    "aiApiKeyPlaceholder": "输入你的豆包 API Key...",
+    "aiApiKeyHint": "前往 volcengine.com 获取豆包 API Key，密钥仅保存在本地浏览器中。"
   },
   "favorites": {
     "title": "收藏",
@@ -195,5 +200,22 @@
     "download": "下载图片",
     "generating": "生成中...",
     "close": "关闭"
+  },
+  "ai": {
+    "title": "AI 天气助手",
+    "clear": "清空对话",
+    "noKey": "请先在设置页面配置豆包 API Key",
+    "goSettings": "前往设置",
+    "welcome": "你好！我是 AI 天气助手，可以为你解读天气数据、提供穿衣和出行建议。试试下面的快捷问题吧 👇",
+    "placeholder": "输入你的天气问题...",
+    "stop": "停止生成"
+  },
+  "globe": {
+    "title": "3D 地球",
+    "subtitle": "实时查看收藏城市的天气分布",
+    "clickToView": "点击查看详情",
+    "dragRotate": "拖拽旋转",
+    "scrollZoom": "滚轮缩放",
+    "clickCity": "点击城市跳转"
   }
 }

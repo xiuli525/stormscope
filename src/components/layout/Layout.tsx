@@ -2,6 +2,8 @@ import React from "react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { DynamicBackground } from "./DynamicBackground";
+import { AiChatButton } from "../ai/AiChatButton";
+import { AiChatPanel } from "../ai/AiChatPanel";
 import { useFavoritesStore } from "../../stores/favorites";
 import { useWeather } from "../../hooks/useWeather";
 
@@ -42,6 +44,9 @@ export function Layout({ children }: LayoutProps) {
           </main>
         </div>
       </div>
+
+      <AiChatButton />
+      <AiChatPanel />
     </div>
   );
 }

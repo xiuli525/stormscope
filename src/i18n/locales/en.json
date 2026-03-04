@@ -6,6 +6,7 @@
     "map": "Weather Map",
     "historical": "Historical",
     "settings": "Settings",
+    "globe": "3D Globe",
     "menu": "Menu",
     "toggleMenu": "Toggle Menu"
   },
@@ -105,7 +106,11 @@
     "aqiStandard": "AQI Standard",
     "usEpa": "US EPA",
     "europeanAqi": "European AQI",
-    "resetAll": "Reset All Settings"
+    "resetAll": "Reset All Settings",
+    "ai": "AI Weather Assistant",
+    "aiApiKey": "Doubao API Key",
+    "aiApiKeyPlaceholder": "Enter your Doubao API Key...",
+    "aiApiKeyHint": "Get your API Key from volcengine.com. Key is stored only in your local browser."
   },
   "favorites": {
     "title": "Favorites",
@@ -195,5 +200,22 @@
     "download": "Download Image",
     "generating": "Generating...",
     "close": "Close"
+  },
+  "ai": {
+    "title": "AI Weather Assistant",
+    "clear": "Clear Chat",
+    "noKey": "Please configure your Doubao API Key in Settings first",
+    "goSettings": "Go to Settings",
+    "welcome": "Hi! I'm your AI weather assistant. I can help you understand weather data and provide outfit & travel suggestions. Try the quick questions below 👇",
+    "placeholder": "Ask me about the weather...",
+    "stop": "Stop generating"
+  },
+  "globe": {
+    "title": "3D Globe",
+    "subtitle": "View weather distribution across your favorite cities",
+    "clickToView": "Click to view details",
+    "dragRotate": "Drag to rotate",
+    "scrollZoom": "Scroll to zoom",
+    "clickCity": "Click city to jump"
   }
 }

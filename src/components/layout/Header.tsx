@@ -166,15 +166,14 @@ export function Header() {
           />
 
           {showResults && searchResults && searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--overlay-bg)] backdrop-blur-md rounded-card border border-[var(--overlay-border)] shadow-glass overflow-hidden max-h-60 overflow-y-auto z-50">
+            <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--search-dropdown-bg)] backdrop-blur-xl rounded-card border border-[var(--search-dropdown-border)] shadow-glass overflow-hidden max-h-60 overflow-y-auto z-50">
               {searchResults.map((city, index) => (
                 <button
                   key={city.id}
                   onClick={() => handleSelectCity(city)}
                   className={cn(
-                    "w-full text-left px-4 py-3 hover:bg-[var(--component-bg-hover)] transition-colors flex items-center gap-3 border-b border-[var(--glass-border-subtle)] last:border-0",
-                    highlightIndex === index &&
-                      "bg-[var(--component-bg-hover)]",
+                    "w-full text-left px-4 py-3 hover:bg-[var(--search-item-hover)] transition-colors flex items-center gap-3 border-b border-[var(--glass-border-subtle)] last:border-0",
+                    highlightIndex === index && "bg-[var(--search-item-hover)]",
                   )}
                 >
                   <MapPin className="w-4 h-4 text-[var(--text-muted)] shrink-0" />

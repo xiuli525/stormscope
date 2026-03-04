@@ -7,6 +7,7 @@ import {
   History,
   Settings2,
   Menu,
+  Globe,
 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,13 +24,14 @@ export function Sidebar() {
     { to: "/map", label: t("nav.map"), icon: Map },
     { to: "/historical", label: t("nav.historical"), icon: History },
     { to: "/settings", label: t("nav.settings"), icon: Settings2 },
+    { to: "/globe", label: t("nav.globe"), icon: Globe },
   ];
 
   return (
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary-500 text-white shadow-lg md:hidden hover:bg-primary-600 transition-colors"
+        className="fixed bottom-6 left-6 z-50 p-4 rounded-full bg-primary-500 text-white shadow-lg md:hidden hover:bg-primary-600 transition-colors"
         aria-label={t("nav.toggleMenu")}
       >
         <Menu className="w-6 h-6" />

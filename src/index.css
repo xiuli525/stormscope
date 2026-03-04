@@ -133,6 +133,13 @@
 
   --scrollbar-thumb: rgb(148 163 184 / 0.2);
   --scrollbar-thumb-hover: rgb(148 163 184 / 0.4);
+
+  /* Search input */
+  --search-input-bg: rgb(255 255 255 / 0.1);
+  --search-input-border: rgb(255 255 255 / 0.15);
+  --search-dropdown-bg: rgb(15 22 41 / 0.97);
+  --search-dropdown-border: rgb(255 255 255 / 0.15);
+  --search-item-hover: rgb(255 255 255 / 0.1);
 }
 
 /* === Light Theme === */
@@ -194,6 +201,12 @@
   /* Scrollbar */
   --scrollbar-thumb: rgb(148 163 184 / 0.3);
   --scrollbar-thumb-hover: rgb(148 163 184 / 0.5);
+
+  --search-input-bg: rgb(255 255 255 / 0.5);
+  --search-input-border: rgb(255 255 255 / 0.5);
+  --search-dropdown-bg: rgb(255 255 255 / 0.95);
+  --search-dropdown-border: rgb(0 0 0 / 0.1);
+  --search-item-hover: rgb(0 0 0 / 0.05);
 }
 
 /* === Glass Morphism Utility Classes === */

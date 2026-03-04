@@ -21,7 +21,8 @@ export function SearchInput({
   return (
     <div
       className={cn(
-        "group flex items-center w-full glass-subtle rounded-full px-4 py-2 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary-300",
+        "group flex items-center w-full rounded-full px-4 py-2 transition-all duration-200 focus-within:ring-2 focus-within:ring-primary-300",
+        "bg-[var(--search-input-bg)] backdrop-blur-xl border border-[var(--search-input-border)]",
         className,
       )}
     >
