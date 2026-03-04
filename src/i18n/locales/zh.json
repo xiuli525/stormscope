@@ -178,5 +178,22 @@
     "WNW": "西西北",
     "NW": "西北",
     "NNW": "北西北"
+  },
+  "alerts": {
+    "title": "天气预警"
+  },
+  "astro": {
+    "title": "天文与生活",
+    "sunMoon": "日月轨迹",
+    "dayLength": "白昼时长",
+    "moonPhase": "月相",
+    "moonCycle": "月龄",
+    "lifeSuggestions": "生活建议"
+  },
+  "share": {
+    "title": "分享天气",
+    "download": "下载图片",
+    "generating": "生成中...",
+    "close": "关闭"
   }
 }

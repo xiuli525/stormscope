@@ -15,6 +15,7 @@
     "echarts": "^6.0.0",
     "echarts-for-react": "^3.0.6",
     "framer-motion": "^12.34.5",
+    "html2canvas": "^1.4.1",
     "i18next": "^25.8.14",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.576.0",

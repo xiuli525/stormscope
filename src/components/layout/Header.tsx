@@ -16,6 +16,7 @@ export function Header() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
+  const [highlightIndex, setHighlightIndex] = useState(-1);
   const searchRef = useRef<HTMLDivElement>(null);
 
   const { data: searchResults, isLoading: isSearching } =
@@ -37,6 +38,7 @@ export function Header() {
     } else {
       setShowResults(false);
     }
+    setHighlightIndex(-1);
   }, [debouncedQuery]);
 
   useEffect(() => {
@@ -64,6 +66,41 @@ export function Header() {
     });
     setQuery("");
     setShowResults(false);
+    setHighlightIndex(-1);
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const results = searchResults ?? [];
+    if (!showResults || results.length === 0) {
+      if (e.key === "Enter" && query.trim().length >= 2) {
+        setDebouncedQuery(query);
+        setShowResults(true);
+      }
+      return;
+    }
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (highlightIndex >= 0 && highlightIndex < results.length) {
+          handleSelectCity(results[highlightIndex]);
+        } else if (results.length > 0) {
+          handleSelectCity(results[0]);
+        }
+        break;
+      case "Escape":
+        setShowResults(false);
+        setHighlightIndex(-1);
+        break;
+    }
   };
 
   const handleToggleFavorite = (e: React.MouseEvent, city: GeocodingResult) => {
@@ -122,6 +159,7 @@ export function Header() {
           <SearchInput
             value={query}
             onChange={setQuery}
+            onKeyDown={handleSearchKeyDown}
             placeholder={t("header.searchPlaceholder")}
             loading={isSearching}
             className="w-full"
@@ -129,11 +167,15 @@ export function Header() {
 
           {showResults && searchResults && searchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--overlay-bg)] backdrop-blur-md rounded-card border border-[var(--overlay-border)] shadow-glass overflow-hidden max-h-60 overflow-y-auto z-50">
-              {searchResults.map((city) => (
+              {searchResults.map((city, index) => (
                 <button
                   key={city.id}
                   onClick={() => handleSelectCity(city)}
-                  className="w-full text-left px-4 py-3 hover:bg-[var(--component-bg-hover)] transition-colors flex items-center gap-3 border-b border-[var(--glass-border-subtle)] last:border-0"
+                  className={cn(
+                    "w-full text-left px-4 py-3 hover:bg-[var(--component-bg-hover)] transition-colors flex items-center gap-3 border-b border-[var(--glass-border-subtle)] last:border-0",
+                    highlightIndex === index &&
+                      "bg-[var(--component-bg-hover)]",
+                  )}
                 >
                   <MapPin className="w-4 h-4 text-[var(--text-muted)] shrink-0" />
                   <div className="flex-1 min-w-0">

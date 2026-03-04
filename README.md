@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/License-MIT-green" />
 </p>
 
-一个现代化的天气数据可视化仪表盘，基于 React 19 + TypeScript 构建。集成真实天气 API 数据、交互式图表、动态天空渐变背景、**Canvas 天气粒子特效系统**，支持中英双语和明暗主题切换。
+一个现代化的天气数据可视化仪表盘，基于 React 19 + TypeScript 构建。集成真实天气 API 数据、交互式图表、动态天空渐变背景、**Canvas 天气粒子特效系统**、**极端天气预警**、**天文与生活建议面板**、**天气分享卡片生成器**，支持中英双语和明暗主题切换。
 
 ---
 
@@ -27,6 +27,8 @@
 | ❄️ 雪天        | 六臂结晶雪花，旋转 + 正弦摆动           |
 | 🌫️ 雾天        | 径向渐变雾气团横向漂移                  |
 | ⛈️ 雷暴        | 雨滴 + 多段折线闪电（含分支）+ 屏幕闪烁 |
+| 🌨️ 冰雹        | 不规则冰块 + 碰撞反弹 + 地面溅射        |
+| ☁️ 阴天        | 立体云朵漂移 + 内部渐变                 |
 
 ### 🌓 动态天空渐变
 
@@ -36,18 +38,35 @@
 
 基于 ECharts 构建多种图表：温度趋势折线图、风向玫瑰图、降水柱状图、空气质量仪表盘、24 小时 AQI 趋势线、GitHub 风格温度热力日历。
 
+### ⚠️ 极端天气预警系统
+
+自动检测当前天气数据中的极端状况（暴雨、高温、寒潮、大风、暴雪、沙尘暴等），以醒目的色彩卡片横幅展示预警信息，包含预警等级、持续时间和防护建议。
+
+### 🌙 天文与生活面板
+
+- **日出日落可视化弧线** — SVG 动态绘制太阳运行轨迹，实时标注当前位置
+- **月相显示** — 根据日期计算当前月相并展示对应图标
+- **生活建议指数** — 穿衣指数、运动指数、洗车指数、紫外线防护等级，基于真实气象数据智能计算
+
+### 📤 天气分享卡片生成器
+
+一键生成精美天气分享 PNG 图片，支持 3 种模板风格（渐变卡片 / 极简黑白 / 照片风格），使用 html2canvas 将实时天气数据渲染为可保存、可分享的高清图片。
+
 ---
 
 ## 📋 功能列表
 
 ### 仪表盘
 
+- 极端天气预警横幅（自动检测暴雨/高温/寒潮/大风等）
 - 当前天气状况（温度、体感温度、湿度、风速、紫外线指数）
+- 一键生成天气分享卡片（3 种模板风格）
 - 逐小时预报横向滚动卡片
 - 温度趋势折线图（ECharts）
 - 风向玫瑰图 + 降水柱状图
 - 空气质量仪表盘（实时 AQI）
 - 7 天预报卡片
+- 天文与生活面板（日出日落弧线、月相、穿衣/运动/洗车/紫外线建议）
 - 收藏城市快速切换侧栏
 
 ### 7 天预报
@@ -112,6 +131,7 @@
 | 国际化   | i18next + react-i18next     | 25.x / 16.x |
 | 图标     | Lucide React                | —           |
 | 粒子系统 | 原生 Canvas 2D API          | —           |
+| 截图生成 | html2canvas                 | 1.4         |
 
 ---
 
@@ -161,7 +181,7 @@ src/
 │   ├── charts/        # ECharts 可视化图表（TempChart, AqiGauge, WindRose 等）
 │   ├── layout/        # 应用外壳（Header, Sidebar, DynamicBackground, WeatherParticles）
 │   ├── ui/            # 基础 UI 组件（Card, Button, Badge, Select, Toggle 等）
-│   └── weather/       # 天气展示组件（CurrentWeather, ForecastCard 等）
+│   └── weather/       # 天气展示组件（CurrentWeather, ForecastCard, WeatherAlerts, AstroLifePanel, ShareCard 等）
 ├── hooks/             # React Query hooks（useWeather, useAirQuality 等）
 ├── i18n/              # 国际化配置 + 中英文语言包
 ├── pages/             # 路由页面（Dashboard, Forecast, AirQuality, Historical 等）
@@ -169,7 +189,7 @@ src/
 ├── stores/            # Zustand 状态管理（settings, favorites, theme）
 ├── themes/            # ECharts 主题注册
 ├── types/             # TypeScript 类型定义
-└── utils/             # 工具函数（单位转换, WMO 天气码, 天空渐变等）
+└── utils/             # 工具函数（单位转换, WMO 天气码, 天空渐变, 天气预警规则等）
 ```
 
 ---

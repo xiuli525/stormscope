@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Card, Skeleton } from "@/components/ui";
@@ -7,6 +7,9 @@ import {
   WeatherCard,
   ForecastCard,
   FavoriteCities,
+  WeatherAlerts,
+  AstroLifePanel,
+  ShareCard,
 } from "@/components/weather";
 import { TempChart, AqiGauge, WindRose, PrecipBar } from "@/components/charts";
 import { useFavoritesStore } from "@/stores/favorites";
@@ -76,6 +79,7 @@ export default function Dashboard() {
   );
 
   const isLoading = isWeatherLoading || isAqiLoading;
+  const [showShareCard, setShowShareCard] = useState(false);
 
   const currentAqi = useMemo(() => {
     if (!airQuality?.hourly) return 0;
@@ -150,13 +154,44 @@ export default function Dashboard() {
       initial="hidden"
       animate="visible"
     >
+      {weather && (
+        <motion.div variants={itemVariants} className="w-full">
+          <WeatherAlerts weather={weather} />
+        </motion.div>
+      )}
+
       <motion.div variants={itemVariants} className="w-full">
         {weather?.current && (
-          <CurrentWeather
-            weather={weather.current}
-            cityName={city.name}
-            timezone={weather.timezone}
-          />
+          <div className="relative">
+            <CurrentWeather
+              weather={weather.current}
+              cityName={city.name}
+              timezone={weather.timezone}
+            />
+            <button
+              onClick={() => setShowShareCard(true)}
+              className="absolute top-4 right-4 p-2.5 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all"
+              title={t("share.title")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+          </div>
         )}
       </motion.div>
 
@@ -281,6 +316,12 @@ export default function Dashboard() {
               ))}
             </div>
           </motion.div>
+
+          {weather && airQuality && (
+            <motion.div variants={itemVariants}>
+              <AstroLifePanel weather={weather} airQuality={airQuality} />
+            </motion.div>
+          )}
         </div>
 
         <motion.div
@@ -295,6 +336,15 @@ export default function Dashboard() {
           </Card>
         </motion.div>
       </div>
+
+      {showShareCard && weather?.current && weather?.daily && (
+        <ShareCard
+          current={weather.current}
+          daily={weather.daily}
+          cityName={city.name}
+          onClose={() => setShowShareCard(false)}
+        />
+      )}
     </motion.div>
   );
 }

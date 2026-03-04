@@ -137,56 +137,56 @@
 
 /* === Light Theme === */
 .light {
-  /* Page backgrounds */
-  --page-bg: #f0f4f8;
-  --surface-primary: #ffffff;
-  --surface-secondary: #f1f5f9;
-  --surface-tertiary: #e2e8f0;
+  /* Page backgrounds — transparent so DynamicBackground sky gradient shows through */
+  --page-bg: transparent;
+  --surface-primary: rgb(255 255 255 / 0.85);
+  --surface-secondary: rgb(241 245 249 / 0.8);
+  --surface-tertiary: rgb(226 232 240 / 0.75);
 
-  /* Glass layers — frosted white with subtle tints */
-  --glass-l1-bg: rgb(255 255 255 / 0.6);
-  --glass-l2-bg: rgb(255 255 255 / 0.75);
-  --glass-l3-bg: rgb(255 255 255 / 0.85);
+  /* Glass layers — semi-transparent to let sky gradient bleed through */
+  --glass-l1-bg: rgb(255 255 255 / 0.45);
+  --glass-l2-bg: rgb(255 255 255 / 0.55);
+  --glass-l3-bg: rgb(255 255 255 / 0.7);
   --glass-blur: 20px;
   --glass-saturate: saturate(120%);
-  --glass-border-subtle: rgb(0 0 0 / 0.06);
-  --glass-border-default: rgb(0 0 0 / 0.1);
-  --glass-border-strong: rgb(0 0 0 / 0.15);
+  --glass-border-subtle: rgb(255 255 255 / 0.4);
+  --glass-border-default: rgb(255 255 255 / 0.5);
+  --glass-border-strong: rgb(255 255 255 / 0.6);
 
   /* Legacy glass aliases */
-  --glass-hero-bg: rgb(255 255 255 / 0.85);
+  --glass-hero-bg: rgb(255 255 255 / 0.7);
   --glass-hero-blur: 20px;
-  --glass-secondary-bg: rgb(255 255 255 / 0.75);
+  --glass-secondary-bg: rgb(255 255 255 / 0.55);
   --glass-secondary-blur: 20px;
-  --glass-subtle-bg: rgb(255 255 255 / 0.6);
+  --glass-subtle-bg: rgb(255 255 255 / 0.45);
   --glass-subtle-blur: 16px;
-  --glass-border: rgb(0 0 0 / 0.1);
+  --glass-border: rgb(255 255 255 / 0.5);
 
   /* Typography */
   --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
-  --text-muted: #94a3b8;
+  --text-secondary: #334155;
+  --text-tertiary: #475569;
+  --text-muted: #64748b;
 
   /* Semantic surface colors for components */
-  --component-bg: rgb(241 245 249 / 0.7);
-  --component-bg-hover: rgb(226 232 240 / 0.6);
-  --component-bg-active: rgb(226 232 240 / 0.8);
-  --component-border: rgb(0 0 0 / 0.08);
+  --component-bg: rgb(255 255 255 / 0.4);
+  --component-bg-hover: rgb(255 255 255 / 0.55);
+  --component-bg-active: rgb(255 255 255 / 0.65);
+  --component-border: rgb(255 255 255 / 0.4);
 
-  /* Shadows — lighter, more diffuse for airy feel */
-  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.06), 0 1px 2px rgb(0 0 0 / 0.04);
+  /* Shadows — soft with slight color tint for depth on sky gradient */
+  --shadow-card: 0 2px 8px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.04);
   --shadow-card-hover:
-    0 8px 25px rgb(0 0 0 / 0.08), 0 4px 10px rgb(0 0 0 / 0.05);
+    0 8px 25px rgb(0 0 0 / 0.1), 0 4px 10px rgb(0 0 0 / 0.06);
   --shadow-glass:
-    0 4px 16px rgb(0 0 0 / 0.06), inset 0 1px 0 rgb(255 255 255 / 0.8);
+    0 4px 20px rgb(0 0 0 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.6);
   --shadow-glow-blue:
-    0 0 20px rgb(59 130 246 / 0.08), 0 0 60px rgb(59 130 246 / 0.03);
-  --shadow-glow-primary: 0 4px 15px rgb(59 130 246 / 0.1);
+    0 0 20px rgb(59 130 246 / 0.1), 0 0 60px rgb(59 130 246 / 0.04);
+  --shadow-glow-primary: 0 4px 15px rgb(59 130 246 / 0.12);
 
   /* Overlay / dropdown surfaces */
-  --overlay-bg: rgb(255 255 255 / 0.95);
-  --overlay-border: rgb(0 0 0 / 0.1);
+  --overlay-bg: rgb(255 255 255 / 0.88);
+  --overlay-border: rgb(255 255 255 / 0.5);
 
   /* Skeleton / loading */
   --skeleton-bg: rgb(0 0 0 / 0.06);

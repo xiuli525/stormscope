@@ -178,5 +178,22 @@
     "WNW": "WNW",
     "NW": "NW",
     "NNW": "NNW"
+  },
+  "alerts": {
+    "title": "Weather Alerts"
+  },
+  "astro": {
+    "title": "Astronomy & Life",
+    "sunMoon": "Sun & Moon",
+    "dayLength": "Day Length",
+    "moonPhase": "Moon Phase",
+    "moonCycle": "Moon Age",
+    "lifeSuggestions": "Life Suggestions"
+  },
+  "share": {
+    "title": "Share Weather",
+    "download": "Download Image",
+    "generating": "Generating...",
+    "close": "Close"
   }
 }
