@@ -7,6 +7,7 @@
     "historical": "Historical",
     "settings": "Settings",
     "globe": "3D Globe",
+    "weatherArt": "Weather Art",
     "menu": "Menu",
     "toggleMenu": "Toggle Menu"
   },
@@ -208,7 +209,28 @@
     "goSettings": "Go to Settings",
     "welcome": "Hi! I'm your AI weather assistant. I can help you understand weather data and provide outfit & travel suggestions. Try the quick questions below 👇",
     "placeholder": "Ask me about the weather...",
-    "stop": "Stop generating"
+    "stop": "Stop generating",
+    "listening": "Listening...",
+    "startListening": "Voice input",
+    "stopListening": "Stop listening",
+    "speakResponse": "Read aloud",
+    "stopSpeaking": "Stop reading"
+  },
+  "weatherArt": {
+    "title": "Weather Art Wallpaper",
+    "subtitle": "Every day's weather is a unique work of art",
+    "styleFlow": "Flow Field",
+    "styleConstellation": "Constellation",
+    "styleAurora": "Aurora",
+    "regenerate": "Regenerate",
+    "download4K": "Download 4K Wallpaper",
+    "paramTemp": "Temperature",
+    "paramWind": "Wind Speed",
+    "paramCloud": "Cloud Cover",
+    "paramHumidity": "Humidity",
+    "paramPrecip": "Precipitation",
+    "paramCondition": "Condition",
+    "paramDayNight": "Day/Night"
   },
   "globe": {
     "title": "3D Globe",

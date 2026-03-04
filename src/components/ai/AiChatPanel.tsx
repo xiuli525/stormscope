@@ -1,7 +1,17 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Trash2, Sparkles, Settings } from "lucide-react";
+import {
+  X,
+  Send,
+  Trash2,
+  Sparkles,
+  Settings,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { useAiStore } from "@/stores/ai";
 import { streamChat } from "@/services/ai";
 import type { AiMessage as AiMessageType } from "@/services/ai";
@@ -10,6 +20,7 @@ import { useWeather } from "@/hooks/useWeather";
 import { useAirQuality } from "@/hooks/useAirQuality";
 import { useFavoritesStore } from "@/stores/favorites";
 import { useSettingsStore } from "@/stores/settings";
+import { useSpeechRecognition, useSpeechSynthesis } from "@/hooks/useSpeech";
 import { AiMessage } from "./AiMessage";
 import { AiQuickActions } from "./AiQuickActions";
 
@@ -38,6 +49,30 @@ export function AiChatPanel() {
   const cityName = currentCity?.name ?? "Beijing";
   const { data: weather } = useWeather(lat, lon);
   const { data: airQuality } = useAirQuality(lat, lon);
+
+  const speechLang = language === "zh" ? "zh-CN" : "en-US";
+  const {
+    isListening,
+    transcript,
+    isSupported: micSupported,
+    startListening,
+    stopListening,
+  } = useSpeechRecognition(speechLang);
+  const {
+    isSpeaking,
+    isSupported: ttsSupported,
+    speak,
+    stop: stopSpeaking,
+  } = useSpeechSynthesis();
+
+  useEffect(() => {
+    if (transcript && !isListening) {
+      if (inputRef.current) {
+        inputRef.current.value = transcript;
+      }
+      sendMessage(transcript);
+    }
+  }, [transcript, isListening]);
 
   const scrollToBottom = useCallback(() => {
     setTimeout(() => {
@@ -172,6 +207,35 @@ export function AiChatPanel() {
                 <Trash2 className="w-4 h-4" />
               </button>
             )}
+            {ttsSupported && hasMessages && (
+              <button
+                onClick={() => {
+                  if (isSpeaking) {
+                    stopSpeaking();
+                  } else {
+                    const lastAssistant = [...messages]
+                      .reverse()
+                      .find((m) => m.role === "assistant");
+                    if (lastAssistant?.content)
+                      speak(lastAssistant.content, speechLang);
+                  }
+                }}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  isSpeaking
+                    ? "bg-primary-500/20 text-primary-400 hover:bg-primary-500/30"
+                    : "hover:bg-[var(--component-bg-hover)] text-[var(--text-tertiary)]"
+                }`}
+                title={
+                  isSpeaking ? t("ai.stopSpeaking") : t("ai.speakResponse")
+                }
+              >
+                {isSpeaking ? (
+                  <VolumeX className="w-4 h-4" />
+                ) : (
+                  <Volume2 className="w-4 h-4" />
+                )}
+              </button>
+            )}
             <button
               onClick={() => setOpen(false)}
               className="p-1.5 rounded-lg hover:bg-[var(--component-bg-hover)] text-[var(--text-tertiary)] transition-colors"
@@ -234,7 +298,33 @@ export function AiChatPanel() {
 
         {hasApiKey && (
           <div className="px-4 py-3 border-t border-[var(--component-border)]">
+            {isListening && (
+              <div className="flex items-center gap-2 mb-2 px-2 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                {t("ai.listening")}
+              </div>
+            )}
             <div className="flex items-end gap-2">
+              {micSupported && (
+                <button
+                  onClick={isListening ? stopListening : startListening}
+                  disabled={isStreaming}
+                  className={`p-2 rounded-xl transition-colors disabled:opacity-50 ${
+                    isListening
+                      ? "bg-red-500/20 text-red-400 hover:bg-red-500/30"
+                      : "bg-[var(--component-bg)] text-[var(--text-tertiary)] hover:bg-[var(--component-bg-hover)]"
+                  }`}
+                  title={
+                    isListening ? t("ai.stopListening") : t("ai.startListening")
+                  }
+                >
+                  {isListening ? (
+                    <MicOff className="w-4 h-4" />
+                  ) : (
+                    <Mic className="w-4 h-4" />
+                  )}
+                </button>
+              )}
               <textarea
                 ref={inputRef}
                 onKeyDown={handleKeyDown}

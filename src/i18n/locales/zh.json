@@ -7,6 +7,7 @@
     "historical": "历史数据",
     "settings": "设置",
     "globe": "3D 地球",
+    "weatherArt": "天气艺术",
     "menu": "菜单",
     "toggleMenu": "切换菜单"
   },
@@ -208,7 +209,28 @@
     "goSettings": "前往设置",
     "welcome": "你好！我是 AI 天气助手，可以为你解读天气数据、提供穿衣和出行建议。试试下面的快捷问题吧 👇",
     "placeholder": "输入你的天气问题...",
-    "stop": "停止生成"
+    "stop": "停止生成",
+    "listening": "正在聆听...",
+    "startListening": "语音输入",
+    "stopListening": "停止聆听",
+    "speakResponse": "朗读回复",
+    "stopSpeaking": "停止朗读"
+  },
+  "weatherArt": {
+    "title": "天气艺术壁纸",
+    "subtitle": "每一天的天气都是独一无二的艺术作品",
+    "styleFlow": "流场",
+    "styleConstellation": "星座",
+    "styleAurora": "极光",
+    "regenerate": "重新生成",
+    "download4K": "下载 4K 壁纸",
+    "paramTemp": "温度",
+    "paramWind": "风速",
+    "paramCloud": "云量",
+    "paramHumidity": "湿度",
+    "paramPrecip": "降水",
+    "paramCondition": "天气",
+    "paramDayNight": "昼夜"
   },
   "globe": {
     "title": "3D 地球",

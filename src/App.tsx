@@ -10,6 +10,7 @@ const WeatherMap = lazy(() => import("./pages/WeatherMap"));
 const Historical = lazy(() => import("./pages/Historical"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Globe = lazy(() => import("./pages/Globe"));
+const WeatherArt = lazy(() => import("./pages/WeatherArt"));
 
 function PageSkeleton() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/historical" element={<Historical />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/globe" element={<Globe />} />
+          <Route path="/weather-art" element={<WeatherArt />} />
         </Routes>
       </Suspense>
     </Layout>

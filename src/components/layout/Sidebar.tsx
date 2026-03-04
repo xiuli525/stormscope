@@ -8,6 +8,7 @@ import {
   Settings2,
   Menu,
   Globe,
+  Palette,
 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,6 +26,7 @@ export function Sidebar() {
     { to: "/historical", label: t("nav.historical"), icon: History },
     { to: "/settings", label: t("nav.settings"), icon: Settings2 },
     { to: "/globe", label: t("nav.globe"), icon: Globe },
+    { to: "/weather-art", label: t("nav.weatherArt"), icon: Palette },
   ];
 
   return (

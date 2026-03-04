@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/License-MIT-green" />
 </p>
 
-一个现代化的天气数据可视化仪表盘，基于 React 19 + TypeScript 构建。集成真实天气 API 数据、交互式图表、动态天空渐变背景、**Canvas 天气粒子特效系统**、**极端天气预警**、**天文与生活建议面板**、**天气分享卡片生成器**、**AI 天气助手（豆包大模型）**、**3D 地球可视化**，支持中英双语和明暗主题切换。
+一个现代化的天气数据可视化仪表盘，基于 React 19 + TypeScript 构建。集成真实天气 API 数据、交互式图表、动态天空渐变背景、**Canvas 天气粒子特效系统**、**极端天气预警**、**天文与生活建议面板**、**天气分享卡片生成器**、**AI 天气助手（豆包大模型）**、**3D 地球可视化**、**生成式天气艺术壁纸**、**语音天气播报**，支持中英双语和明暗主题切换。
 
 ---
 
@@ -60,7 +60,18 @@
 - **智能天气解读** — AI 根据当前温度、湿度、风速、空气质量等真实数据提供个性化建议
 - **快捷问题** — 5 个预置快捷按钮（今天穿什么、适合运动吗、空气质量分析、未来天气趋势、出行建议）
 - **流式输出** — SSE 实时打字机效果，支持随时中断
+- **语音输入** — Web Speech API 语音识别，支持中英双语语音转文字
+- **语音朗读** — Web Speech Synthesis 朗读 AI 回复，一键播放/停止
 - **用户自备 API Key** — 在设置页面输入豆包 API Key 即可使用，数据安全自主可控
+
+### 🎨 生成式天气艺术壁纸
+
+基于 Perlin noise 流场算法，将实时天气数据映射为独一无二的艺术画作：
+
+- **3 种艺术风格** — 流场（Flow Field）、星座（Constellation）、极光（Aurora）
+- **天气数据驱动** — 温度、风速、云量、湿度、降水等参数实时影响画面生成
+- **4K 壁纸下载** — 一键导出 3840×2160 高清壁纸
+- **实时预览** — Canvas 即时渲染，每次点击「重新生成」都获得全新画面
 
 ### 🌍 3D 地球可视化
 
@@ -135,7 +146,17 @@
 - 基于当前城市天气数据的智能问答
 - 5 个快捷问题按钮（中英双语）
 - SSE 流式输出 + 随时中断
+- 语音输入（Web Speech API 语音识别，中英双语）
+- 语音朗读 AI 回复（Web Speech Synthesis）
 - 聊天记录清空
+
+### 天气艺术壁纸
+
+- 3 种生成式艺术风格（流场 / 星座 / 极光）
+- 实时天气数据驱动画面生成
+- Canvas 即时渲染预览
+- 一键下载 4K（3840×2160）高清壁纸
+- 天气参数面板（温度、风速、云量、湿度、降水、天气状况、昼夜）
 
 ### 3D 地球
 
@@ -158,23 +179,24 @@
 
 ## 🛠️ 技术栈
 
-| 类别     | 技术                                | 版本              |
-| -------- | ----------------------------------- | ----------------- |
-| 框架     | React + TypeScript                  | 19.x + 5.8        |
-| 构建工具 | Vite                                | 7.3               |
-| 路由     | React Router                        | 7.x               |
-| 样式     | Tailwind CSS                        | 4.2               |
-| 动画     | Framer Motion                       | 12.x              |
-| 图表     | ECharts + echarts-for-react         | 6.0 / 3.0         |
-| 地图     | Leaflet + react-leaflet             | 1.9 / 5.0         |
-| 状态管理 | Zustand (persist)                   | 5.x               |
-| 数据请求 | TanStack React Query                | 5.x               |
-| 国际化   | i18next + react-i18next             | 25.x / 16.x       |
-| 图标     | Lucide React                        | —                 |
-| 粒子系统 | 原生 Canvas 2D API                  | —                 |
-| 截图生成 | html2canvas                         | 1.4               |
-| 3D 渲染  | Three.js + React Three Fiber + Drei | r183 / 9.5 / 10.7 |
-| AI 模型  | 豆包大模型（Doubao）                | 1.5 Pro 32K       |
+| 类别     | 技术                                      | 版本              |
+| -------- | ----------------------------------------- | ----------------- |
+| 框架     | React + TypeScript                        | 19.x + 5.8        |
+| 构建工具 | Vite                                      | 7.3               |
+| 路由     | React Router                              | 7.x               |
+| 样式     | Tailwind CSS                              | 4.2               |
+| 动画     | Framer Motion                             | 12.x              |
+| 图表     | ECharts + echarts-for-react               | 6.0 / 3.0         |
+| 地图     | Leaflet + react-leaflet                   | 1.9 / 5.0         |
+| 状态管理 | Zustand (persist)                         | 5.x               |
+| 数据请求 | TanStack React Query                      | 5.x               |
+| 国际化   | i18next + react-i18next                   | 25.x / 16.x       |
+| 图标     | Lucide React                              | —                 |
+| 粒子系统 | 原生 Canvas 2D API                        | —                 |
+| 截图生成 | html2canvas                               | 1.4               |
+| 3D 渲染  | Three.js + React Three Fiber + Drei       | r183 / 9.5 / 10.7 |
+| AI 模型  | 豆包大模型（Doubao）                      | 1.5 Pro 32K       |
+| 语音交互 | Web Speech API（Recognition + Synthesis） | —                 |
 
 ---
 
@@ -228,9 +250,9 @@ src/
 │   ├── map/           # 地图组件
 │   ├── ui/            # 基础 UI 组件（Card, Button, Badge, Select, Toggle 等）
 │   └── weather/       # 天气展示组件（CurrentWeather, ForecastCard, WeatherAlerts, AstroLifePanel, ShareCard 等）
-├── hooks/             # React Query hooks（useWeather, useAirQuality 等）
+├── hooks/             # React Query hooks（useWeather, useAirQuality, useSpeech 等）
 ├── i18n/              # 国际化配置 + 中英文语言包
-├── pages/             # 路由页面（Dashboard, Forecast, AirQuality, Historical, Globe 等）
+├── pages/             # 路由页面（Dashboard, Forecast, AirQuality, Historical, Globe, WeatherArt 等）
 ├── services/          # API 服务层（weather, air-quality, historical, geocoding, ai）
 ├── stores/            # Zustand 状态管理（settings, favorites, theme, ai）
 ├── themes/            # ECharts 主题注册
