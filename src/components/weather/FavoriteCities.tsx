@@ -35,7 +35,7 @@ export function FavoriteCities() {
         {t("favorites.title")}
       </h3>
       <AnimatePresence mode="popLayout">
-        {favorites.slice(0, 5).map((city) => (
+        {favorites.map((city) => (
           <FavoriteCityItem
             key={city.id}
             city={city}
